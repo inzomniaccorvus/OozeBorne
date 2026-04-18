@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
+
 public class DropManager {
-    private Array<float[]> weaponDrops;
-    private Array<float[]> powerups;
+    Array<Drop> drops;
 
     private float weaponDropTimer;
     private float powerupTimer;
@@ -21,18 +21,28 @@ public class DropManager {
     private static final float DROP_RENDER_RADIUS = 12f;
     private static final float POWERUP_RENDER_SIZE = 20f;
 
-    private static final int WEAPON_DROP_SHOTGUN = 0;
-    private static final int WEAPON_DROP_RAPID = 1;
-    private static final int POWERUP_HEAL = 0;
-    private static final int POWERUP_SPEED = 1;
-    private static final int POWERUP_FIRERATE = 2;
-
     public DropManager() {
-        weaponDrops = new Array<>();
-        powerups = new Array<>();
+        drops = new Array<>();
+    }
+
+
+    private void spawnWeaponDrop() {
+        float spawnX = SPAWN_PADDING + (float) (Math.random() * (Gdx.graphics.getWidth() - SPAWN_PADDING * 2));
+        float spawnY = SPAWN_PADDING + (float) (Math.random() * (Gdx.graphics.getHeight() - SPAWN_PADDING * 2));
+        Drop.Type type = Math.random() < 0.5 ? Drop.Type.SHOTGUN : Drop.Type.RAPID;
+        drops.add(new Drop(spawnX, spawnY, WEAPON_DROP_LIFETIME, type));
+    }
+
+    private void spawnPowerup() {
+        float spawnX = SPAWN_PADDING + (float) (Math.random() * (Gdx.graphics.getWidth() - SPAWN_PADDING * 2));
+        float spawnY = SPAWN_PADDING + (float) (Math.random() * (Gdx.graphics.getHeight() - SPAWN_PADDING * 2));
+        Drop.Type[] powerupTypes = {Drop.Type.HEAL, Drop.Type.SPEED, Drop.Type.FIRERATE};
+        Drop.Type type = powerupTypes[(int)(Math.random() * powerupTypes.length)];
+        drops.add(new Drop(spawnX, spawnY, -1f, type)); //powerup drops don't disappear
     }
 
     public void update(float delta, Player player, Sound pickupSound) {
+
         weaponDropTimer += delta;
         if (weaponDropTimer >= WEAPON_DROP_INTERVAL) {
             weaponDropTimer = 0f;
@@ -45,84 +55,60 @@ public class DropManager {
             spawnPowerup();
         }
 
-        updateWeaponDrops(delta, player, pickupSound);
-        updatePowerups(player, pickupSound);
-    }
-
-    private void spawnWeaponDrop() {
-        float spawnX = SPAWN_PADDING + (float) (Math.random() * (Gdx.graphics.getWidth() - SPAWN_PADDING * 2));
-        float spawnY = SPAWN_PADDING + (float) (Math.random() * (Gdx.graphics.getHeight() - SPAWN_PADDING * 2));
-        float weaponType = Math.random() < 0.5 ? WEAPON_DROP_SHOTGUN : WEAPON_DROP_RAPID;
-        weaponDrops.add(new float[]{spawnX, spawnY, weaponType, WEAPON_DROP_LIFETIME});
-    }
-
-    private void spawnPowerup() {
-        float spawnX = SPAWN_PADDING + (float) (Math.random() * (Gdx.graphics.getWidth() - SPAWN_PADDING * 2));
-        float spawnY = SPAWN_PADDING + (float) (Math.random() * (Gdx.graphics.getHeight() - SPAWN_PADDING * 2));
-        float powerupType = (float) (int) (Math.random() * 3);
-        powerups.add(new float[]{spawnX, spawnY, powerupType});
-    }
-
-    private void updateWeaponDrops(float delta, Player player, Sound pickupSound) {
-        for (int i = weaponDrops.size - 1; i >= 0; i--) {
-            float[] drop = weaponDrops.get(i);
-            drop[3] -= delta;
-
-            if (drop[3] <= 0) {
-                weaponDrops.removeIndex(i);
-                continue;
+            for (int i=drops.size - 1; i >= 0; i--) {
+                Drop drop = drops.get(i);
+            if (drop.isWeapon()) {
+                drop.lifeTime -= delta;
+                if (drop.lifeTime <= 0) {
+                    drops.removeIndex(i);
+                    continue;
+                }
             }
-
-            float distanceX = drop[0] - player.centerX();
-            float distanceY = drop[1] - player.centerY();
+            float distanceX = drop.x - player.centerX();
+            float distanceY = drop.y - player.centerY();
             float distance = (float) Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
             if (distance < DROP_PICKUP_RADIUS) {
-                Player.WeaponType weaponType = (drop[2] == WEAPON_DROP_SHOTGUN)
-                        ? Player.WeaponType.SHOTGUN
-                        : Player.WeaponType.RAPID_FIRE;
-                player.equipWeapon(weaponType);
+                if (drop.isWeapon()) {
+                    Player.WeaponType weaponType = (drop.type == Drop.Type.SHOTGUN) ? Player.WeaponType.SHOTGUN : Player.WeaponType.RAPID_FIRE;
+                    player.equipWeapon(weaponType);
+                } else {
+                    if (drop.type == Drop.Type.HEAL) player.heal(20);
+                    else if (drop.type == Drop.Type.SPEED) player.applySpeedBoost();
+                    else if (drop.type == Drop.Type.FIRERATE) player.applyFirerateBoost();
+                }
                 pickupSound.play(1f);
-                weaponDrops.removeIndex(i);
+                drops.removeIndex(i);
             }
+
         }
     }
 
-    private void updatePowerups(Player player, Sound pickupSound) {
-        for (int i = powerups.size - 1; i >= 0; i--) {
-            float[] powerup = powerups.get(i);
-            float distanceX = powerup[0] - player.centerX();
-            float distanceY = powerup[1] - player.centerY();
-            float distance = (float) Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-            if (distance < DROP_PICKUP_RADIUS) {
-                if (powerup[2] == POWERUP_HEAL) player.heal(20);
-                else if (powerup[2] == POWERUP_SPEED) player.applySpeedBoost();
-                else if (powerup[2] == POWERUP_FIRERATE) player.applyFirerateBoost();
-                pickupSound.play(1f);
-                powerups.removeIndex(i);
-            }
-        }
-    }
 
     public void draw(ShapeRenderer shape) {
-        for (float[] drop : weaponDrops) {
-            shape.setColor(drop[2] == WEAPON_DROP_SHOTGUN ? Color.ORANGE : Color.GREEN);
-            shape.circle(drop[0], drop[1], DROP_RENDER_RADIUS);
-        }
+        for(int i=drops.size - 1; i >= 0; i--) {
+            Drop drop = drops.get(i);
+            if (drop.type == Drop.Type.SHOTGUN) {
+                shape.setColor(Color.ORANGE);
+            } else if (drop.type == Drop.Type.RAPID) {
+                shape.setColor(Color.GREEN);
+            } else if (drop.type == Drop.Type.SPEED) {
+                shape.setColor(Color.CYAN);
+            } else if (drop.type == Drop.Type.FIRERATE) {
+                shape.setColor(Color.YELLOW);
+            } else if (drop.type == Drop.Type.HEAL) {
+                shape.setColor(Color.GREEN);
+            }
 
-        for (float[] powerup : powerups) {
-            if (powerup[2] == POWERUP_HEAL) shape.setColor(Color.GREEN);
-            else if (powerup[2] == POWERUP_SPEED) shape.setColor(Color.CYAN);
-            else shape.setColor(Color.YELLOW);
-            shape.rect(powerup[0] - POWERUP_RENDER_SIZE / 2, powerup[1] - POWERUP_RENDER_SIZE / 2,
-                    POWERUP_RENDER_SIZE, POWERUP_RENDER_SIZE);
+            if (drop.isWeapon()) {
+                shape.circle(drop.x, drop.y, DROP_RENDER_RADIUS);
+            } else {
+                shape.rect(drop.x - POWERUP_RENDER_SIZE / 2, drop.y - POWERUP_RENDER_SIZE / 2, POWERUP_RENDER_SIZE, POWERUP_RENDER_SIZE);
+            }
         }
     }
 
     public void clear() {
-        weaponDrops.clear();
-        powerups.clear();
+        drops.clear();
         weaponDropTimer = 0f;
         powerupTimer = 0f;
     }

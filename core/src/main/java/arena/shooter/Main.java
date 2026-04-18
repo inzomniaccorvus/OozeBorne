@@ -34,7 +34,6 @@ public class Main extends ApplicationAdapter {
 
     private int score;
     private float survivalTime;
-    private int[] scoreContainer;
 
     private boolean mainMenu;
     private boolean gameOver;
@@ -77,7 +76,6 @@ public class Main extends ApplicationAdapter {
         collisionSystem = new CollisionSystem();
         hud = new HUD();
 
-        scoreContainer = new int[]{0};
         mainMenu = true;
         gameOver = false;
     }
@@ -104,7 +102,6 @@ public class Main extends ApplicationAdapter {
 
         float delta = Gdx.graphics.getDeltaTime();
         survivalTime += delta;
-        score = scoreContainer[0];
 
         mouseWorldPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         camera.unproject(mouseWorldPosition);
@@ -123,8 +120,8 @@ public class Main extends ApplicationAdapter {
         particleSystem.update(delta);
         dropManager.update(delta, player, pickupSound);
 
-        collisionSystem.checkBulletEnemyCollisions(bulletManager, enemyManager, particleSystem,
-                hitSound, explosionSound, scoreContainer);
+        score += collisionSystem.checkBulletEnemyCollisions(bulletManager, enemyManager, particleSystem,
+                hitSound, explosionSound);
         collisionSystem.checkPlayerEnemyCollisions(player, enemyManager);
 
         if (player.damageFlashTimer > 0) shakeDuration = SHAKE_DURATION;
@@ -188,7 +185,6 @@ public class Main extends ApplicationAdapter {
         enemyManager.clear();
         particleSystem.clear();
         dropManager.clear();
-        scoreContainer[0] = 0;
         score = 0;
         survivalTime = 0f;
         shakeDuration = 0f;

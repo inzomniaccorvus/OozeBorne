@@ -10,14 +10,16 @@ public class Enemy {
     public float speed;
     public int hp;
     public Color color;
+    public int scoreValue;
 
-    public Enemy(float x, float y, float size, float speed, int hp, Color color) {
+    public Enemy(float x, float y, float size, float speed, int hp, Color color, int scoreValue) {
         this.x = x;
         this.y = y;
         this.size = size;
         this.speed = speed;
         this.hp = hp;
         this.color = color;
+        this.scoreValue = scoreValue;
     }
 
     public void update(float delta, float targetX, float targetY) {
@@ -45,8 +47,8 @@ public class Enemy {
     }
 
     public void applySeparation(Array<Enemy> enemies, float delta) {
-        float seperationRadius = 40f;
-        float seperationStrength = 60f;
+        float separationRadius = 40f;
+        float separationStrength = 60f;
 
         float pushX = 0f;
         float pushY = 0f;
@@ -58,10 +60,10 @@ public class Enemy {
             float dx = x - other.x;
             float dy = y - other.y;
             float dist = (float) Math.sqrt(dx * dx + dy * dy);
-            if (dist < seperationRadius && dist > 0) {
-                float force = (seperationRadius - dist) / seperationRadius;
-                pushX += (dx/dist) * force * seperationStrength;
-                pushY += (dy/dist) * force * seperationStrength;
+            if (dist < separationRadius && dist > 0) {
+                float force = (separationRadius - dist) / separationRadius;
+                pushX += (dx/dist) * force * separationStrength;
+                pushY += (dy/dist) * force * separationStrength;
             }
         }
         x += pushX * delta;
