@@ -1,6 +1,5 @@
 package arena.shooter;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -45,7 +44,7 @@ public class Enemy {
         hp -= amount;
     }
 
-    public void applySeperation(Array<Enemy> enemies, float delta) {
+    public void applySeparation(Array<Enemy> enemies, float delta) {
         float seperationRadius = 40f;
         float seperationStrength = 60f;
 

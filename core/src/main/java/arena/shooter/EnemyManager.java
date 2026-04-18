@@ -25,7 +25,7 @@ public class EnemyManager {
 
         for (Enemy enemy : enemies) {
             enemy.update(delta, playerCenterX, playerCenterY);
-            enemy.applySeperation(enemies, delta);
+            enemy.applySeparation(enemies, delta);
         }
     }
 
@@ -37,10 +37,22 @@ public class EnemyManager {
         float spawnX = 0, spawnY = 0;
 
         switch (edge) {
-            case 0: spawnX = (float) (Math.random() * screenWidth);  spawnY = screenHeight; break;
-            case 1: spawnX = (float) (Math.random() * screenWidth);  spawnY = 0;            break;
-            case 2: spawnX = 0;           spawnY = (float) (Math.random() * screenHeight);  break;
-            case 3: spawnX = screenWidth; spawnY = (float) (Math.random() * screenHeight);  break;
+            case 0:
+                spawnX = (float) (Math.random() * screenWidth);
+                spawnY = screenHeight;
+                break;
+            case 1:
+                spawnX = (float) (Math.random() * screenWidth);
+                spawnY = 0;
+                break;
+            case 2:
+                spawnX = 0;
+                spawnY = (float) (Math.random() * screenHeight);
+                break;
+            case 3:
+                spawnX = screenWidth;
+                spawnY = (float) (Math.random() * screenHeight);
+                break;
         }
 
         float scaledSpeed = 80f + survivalTime * 0.5f;
