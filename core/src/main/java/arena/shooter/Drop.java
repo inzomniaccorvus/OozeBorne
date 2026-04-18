@@ -4,7 +4,7 @@ package arena.shooter;
 public class Drop {
 
     public enum Type {
-        SHOTGUN, RAPID, BURST, HEAL, SPEED, FIRERATE, PIERCING
+        SHOTGUN, RAPID, BURST, HEAL, SPEED, FIRERATE, ARMORBUSTER
     }
 
     public float x;

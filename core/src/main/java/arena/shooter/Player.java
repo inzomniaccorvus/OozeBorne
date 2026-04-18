@@ -16,6 +16,7 @@ public class Player {
     public float damageFlashTimer;
     public float speedBoostTimer;
     public float firerateBoostTimer;
+    public float damageBoostTimer;
     public float fireTimer;
     public float weaponTimer;
     public WeaponType currentWeapon;
@@ -27,7 +28,7 @@ public class Player {
     private static final float DAMAGE_FLASH_DURATION = 0.2f;
 
     public enum WeaponType {
-        PISTOL, SHOTGUN, RAPID_FIRE
+        PISTOL, SHOTGUN, RAPID_FIRE, BURST
     }
 
     public Player(float startX, float startY, float size) {
@@ -62,6 +63,7 @@ public class Player {
         damageFlashTimer -= delta;
         speedBoostTimer -= delta;
         firerateBoostTimer -= delta;
+        damageBoostTimer -= delta;
 
         if (currentWeapon != WeaponType.PISTOL) {
             weaponTimer -= delta;
@@ -70,15 +72,14 @@ public class Player {
             }
         }
 
-        handleShooting(delta, bullets, aimDirectionX, aimDirectionY, shootSound);
+        handleShooting(bullets, aimDirectionX, aimDirectionY, shootSound);
     }
 
-    private void handleShooting(float delta, Array<Bullet> bullets, float aimDirectionX, float aimDirectionY, Sound shootSound) {
+    private void handleShooting(Array<Bullet> bullets, float aimDirectionX, float aimDirectionY, Sound shootSound) {
         if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT) || fireTimer > 0) return;
-
         switch (currentWeapon) {
             case PISTOL:
-                bullets.add(new Bullet(centerX(), centerY(), aimDirectionX, aimDirectionY));
+                bullets.add(makeBullet(aimDirectionX, aimDirectionY, 0f));
                 shootSound.play(0.4f);
                 fireTimer = firerateBoostTimer > 0 ? 0.1f : 0.3f;
                 break;
@@ -88,18 +89,24 @@ public class Player {
                 float[] spreadOffsets = new float[]{-0.35f, -0.175f, 0f, 0.175f, 0.35f};
                 for (float offset : spreadOffsets) {
                     float spreadAngle = baseAngle + offset;
-                    bullets.add(new Bullet(centerX(), centerY(),
-                            (float) Math.cos(spreadAngle),
-                            (float) Math.sin(spreadAngle)));
+                    bullets.add(makeBullet((float) Math.cos(spreadAngle), (float) Math.sin(spreadAngle), 0f));
                 }
                 shootSound.play(0.4f);
                 fireTimer = firerateBoostTimer > 0 ? 0.3f : 0.6f;
                 break;
 
             case RAPID_FIRE:
-                bullets.add(new Bullet(centerX(), centerY(), aimDirectionX, aimDirectionY));
+                bullets.add(makeBullet(aimDirectionX, aimDirectionY, 0f));
                 shootSound.play(0.4f);
                 fireTimer = firerateBoostTimer > 0 ? 0.05f : 0.1f;
+                break;
+
+            case BURST:
+                for (int i = 0; i < 3; i++) {
+                    bullets.add(makeBullet(aimDirectionX, aimDirectionY, i * 8f));
+                }
+                shootSound.play(0.4f);
+                fireTimer = firerateBoostTimer > 0 ? 0.2f : 0.4f;
                 break;
         }
     }
@@ -123,6 +130,10 @@ public class Player {
         hp = Math.min(100, hp + amount);
     }
 
+    public void applyDamageBoost() {
+        damageBoostTimer = 5f;
+    }
+
     public void equipWeapon(WeaponType weaponType) {
         currentWeapon = weaponType;
         weaponTimer = WEAPON_DURATION;
@@ -137,6 +148,15 @@ public class Player {
         shape.rect(x, y, size, size);
     }
 
+    private Bullet makeBullet(float dirX, float dirY, float posOffset) {
+        Bullet b = new Bullet(
+            centerX() + dirX * posOffset,
+            centerY() + dirY * posOffset,
+            dirX, dirY);
+        b.damage = damageBoostTimer > 0 ? 2 : 1;
+        return b;
+    }
+
     public void reset(float startX, float startY) {
         x = startX;
         y = startY;
@@ -145,8 +165,10 @@ public class Player {
         damageFlashTimer = 0f;
         speedBoostTimer = 0f;
         firerateBoostTimer = 0f;
+        damageBoostTimer = 0f;
         fireTimer = 0f;
         weaponTimer = 0f;
         currentWeapon = WeaponType.PISTOL;
     }
+
 }

@@ -40,6 +40,10 @@ public class HUD {
             font.draw(batch, "Firerate Boost: " + (int) player.firerateBoostTimer + "s", HUD_LEFT_MARGIN, nextY);
             nextY -= 30;
         }
+        if (player.damageBoostTimer> 0) {
+            font.draw(batch, "Armor Buster: " + (int) player.damageBoostTimer+ "s", HUD_LEFT_MARGIN, nextY);
+            nextY -= 30;
+        }
         if (player.currentWeapon != Player.WeaponType.PISTOL) {
             font.draw(batch, "Weapon time: " + (int) player.weaponTimer + "s", HUD_LEFT_MARGIN, nextY);
         }

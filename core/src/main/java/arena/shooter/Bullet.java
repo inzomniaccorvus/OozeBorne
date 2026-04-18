@@ -5,6 +5,7 @@ public class Bullet {
     public float dirX, dirY;
     public float speed = 500f;
     public float size = 6f;
+    public int damage = 1;
 
     public Bullet(float x, float y, float dirX, float dirY) {
         this.x = x;

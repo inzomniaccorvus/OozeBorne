@@ -5,9 +5,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class CollisionSystem {
 
-    public int checkBulletEnemyCollisions(BulletManager bulletManager, EnemyManager enemyManager,
-                                            ParticleSystem particleSystem, Sound hitSound,
-                                            Sound explosionSound ) {
+    public int checkBulletEnemyCollisions(BulletManager bulletManager, EnemyManager enemyManager, ParticleSystem particleSystem, Sound hitSound, Sound explosionSound) {
         Array<Bullet> bullets = bulletManager.bullets;
         Array<Enemy> enemies = enemyManager.enemies;
 
@@ -24,9 +22,9 @@ public class CollisionSystem {
                 float distance = (float) Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
                 if (distance < bullet.size + enemy.size) {
-                    enemy.takeDamage(1);
+                    enemy.takeDamage(bullet.damage);
                     hitSound.play(0.6f);
-                    particleSystem.spawnDamageNumber(enemy.x, enemy.y, 1);
+                    particleSystem.spawnDamageNumber(enemy.x + (float) (Math.random() * 20f) - 10f, enemy.y + (float) (Math.random() * 20f) - 10f, bullet.damage);
                     bullets.removeIndex(i);
 
                     if (enemy.isDead()) {
@@ -52,6 +50,12 @@ public class CollisionSystem {
 
             if (distance < enemy.size + player.size / 2) {
                 player.takeDamage(10);
+
+                float pushX = enemy.x - player.centerX();
+                float pushY = enemy.y - player.centerY();
+                float len = (float) Math.sqrt(pushX * pushX + pushY * pushY);
+                enemy.x += (pushX / len) * 40f;
+                enemy.y += (pushY / len) * 40f;
             }
         }
     }
