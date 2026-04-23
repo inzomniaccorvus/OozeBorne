@@ -18,12 +18,13 @@ public class SplitterEnemy extends Enemy {
         for (int i = 0; i < numberOfSplits; i++) {
 
             float roll = (float) Math.random();
-            float offset = (float) (Math.random() * 50f) - 25f;
+            float offsetX = (float) (Math.random() * 50f) - 25f;
+            float offsetY = (float) (Math.random() * 50f) - 25f;
 
             if (roll < 0.5f) {
-                enemies.add(new BasicEnemy(this.x + offset, this.y + offset, speed));
+                enemies.add(new BasicEnemy(this.x + offsetX, this.y + offsetY, speed));
             } else {
-                enemies.add(new FastEnemy(this.x + offset, this.y + offset, speed * 1.8f));
+                enemies.add(new FastEnemy(this.x + offsetY, this.y + offsetY, speed * 1.8f));
             }
         }
     }

@@ -24,8 +24,9 @@ public class ParticleSystem {
     }
 
     public void spawnDamageNumber(float x, float y, int amount) {
-        float offset = (float) (Math.random() * 20f) - 10f;
-        damageNumbers.add(new DamageNumber(x + offset, y + offset, amount));
+        float offsetX = (float) (Math.random() * 20f) - 10f;
+        float offsetY = (float) (Math.random() * 20f) - 10f;
+        damageNumbers.add(new DamageNumber(x + offsetX, y + offsetY, amount));
     }
 
     public void update(float delta) {
