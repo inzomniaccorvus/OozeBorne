@@ -120,9 +120,9 @@ public class Main extends ApplicationAdapter {
         particleSystem.update(delta);
         dropManager.update(delta, player, pickupSound);
 
-        score += collisionSystem.checkBulletEnemyCollisions(bulletManager, enemyManager, particleSystem,
-                hitSound, explosionSound);
+        score += collisionSystem.checkBulletEnemyCollisions(bulletManager, enemyManager, particleSystem, hitSound, explosionSound);
         collisionSystem.checkPlayerEnemyCollisions(player, enemyManager);
+        collisionSystem.checkEnemyBulletPlayerCollisions(player, enemyManager);
 
         if (player.damageFlashTimer > 0) shakeDuration = SHAKE_DURATION;
         if (shakeDuration > 0) {
@@ -139,8 +139,7 @@ public class Main extends ApplicationAdapter {
             return;
         }
 
-        camera.position.set(Gdx.graphics.getWidth() / 2f + shakeOffsetX,
-                Gdx.graphics.getHeight() / 2f + shakeOffsetY, 0);
+        camera.position.set(Gdx.graphics.getWidth() / 2f + shakeOffsetX, Gdx.graphics.getHeight() / 2f + shakeOffsetY, 0);
         camera.update();
         shapeRenderer.setProjectionMatrix(camera.combined);
         spriteBatch.setProjectionMatrix(camera.combined);

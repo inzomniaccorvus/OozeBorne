@@ -59,4 +59,22 @@ public class CollisionSystem {
             }
         }
     }
+
+    public void checkEnemyBulletPlayerCollisions(Player player, EnemyManager enemyManager) {
+        for (Enemy enemy : enemyManager.enemies) {
+            if (!(enemy instanceof ShooterEnemy)) continue;
+            Array<Bullet> bullets = ((ShooterEnemy) enemy).enemyBullets;
+            for (int i = bullets.size - 1; i >= 0; i--) {
+                Bullet bullet = bullets.get(i);
+                float dx = bullet.x - player.centerX();
+                float dy = bullet.y - player.centerY();
+                float distance = (float) Math.sqrt(dx * dx + dy * dy);
+                if (distance < bullet.size + player.size / 2) {
+                    player.takeDamage(10);
+                    bullets.removeIndex(i);
+                }
+            }
+        }
+    }
+
 }

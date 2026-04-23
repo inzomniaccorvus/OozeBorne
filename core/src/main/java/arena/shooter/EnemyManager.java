@@ -26,6 +26,10 @@ public class EnemyManager {
         for (Enemy enemy : enemies) {
             enemy.update(delta, playerCenterX, playerCenterY);
             enemy.applySeparation(enemies, delta);
+
+            if (enemy instanceof ShooterEnemy) {
+                ((ShooterEnemy) enemy).updateBullets(delta);
+            }
         }
     }
 
@@ -58,12 +62,14 @@ public class EnemyManager {
         float scaledSpeed = 80f + survivalTime * 0.5f;
         float roll = (float) Math.random();
 
-        if (roll < 0.6f) {
+        if (roll < 0.5f) {
             enemies.add(new BasicEnemy(spawnX, spawnY, scaledSpeed));
-        } else if (roll < 0.85f) {
+        } else if (roll < 0.7f) {
             enemies.add(new FastEnemy(spawnX, spawnY, scaledSpeed * 1.8f));
-        } else {
+        } else if (roll < 0.9f) {
             enemies.add(new TankEnemy(spawnX, spawnY, scaledSpeed * 0.5f));
+        } else {
+            enemies.add(new ShooterEnemy(spawnX, spawnY, scaledSpeed));
         }
     }
 
@@ -71,10 +77,17 @@ public class EnemyManager {
         for (Enemy enemy : enemies) {
             enemy.draw(shape);
         }
+
+        for (Enemy enemy : enemies) {
+            if (enemy instanceof ShooterEnemy) {
+                ((ShooterEnemy) enemy).drawBullets(shape);
+            }
+        }
     }
 
     public void clear() {
         enemies.clear();
         spawnTimer = 0f;
     }
+
 }
