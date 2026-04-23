@@ -24,12 +24,15 @@ public class CollisionSystem {
                 if (distance < bullet.size + enemy.size) {
                     enemy.takeDamage(bullet.damage);
                     hitSound.play(0.6f);
-                    particleSystem.spawnDamageNumber(enemy.x + (float) (Math.random() * 20f) - 10f, enemy.y + (float) (Math.random() * 20f) - 10f, bullet.damage);
+                    particleSystem.spawnDamageNumber(enemy.x, enemy.y, bullet.damage);
                     bullets.removeIndex(i);
 
                     if (enemy.isDead()) {
                         explosionSound.play(0.8f);
                         particleSystem.spawnDeathParticles(enemy.x, enemy.y, enemy.color);
+                        if(enemy instanceof SplitterEnemy){
+                            ((SplitterEnemy)enemy).split(enemies);
+                        }
                         enemies.removeIndex(j);
                         score += enemy.scoreValue;
                     }

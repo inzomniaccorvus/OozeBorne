@@ -62,14 +62,17 @@ public class EnemyManager {
         float scaledSpeed = 80f + survivalTime * 0.5f;
         float roll = (float) Math.random();
 
-        if (roll < 0.5f) {
+        if (roll < 0.4f) {
             enemies.add(new BasicEnemy(spawnX, spawnY, scaledSpeed));
-        } else if (roll < 0.7f) {
+        } else if (roll < 0.6f) {
             enemies.add(new FastEnemy(spawnX, spawnY, scaledSpeed * 1.8f));
-        } else if (roll < 0.9f) {
+        } else if (roll < 0.8f) {
             enemies.add(new TankEnemy(spawnX, spawnY, scaledSpeed * 0.5f));
-        } else {
+        } else if (roll < 0.9f) {
             enemies.add(new ShooterEnemy(spawnX, spawnY, scaledSpeed));
+        }
+        else {
+            enemies.add(new SplitterEnemy(spawnX, spawnY, scaledSpeed));
         }
     }
 
