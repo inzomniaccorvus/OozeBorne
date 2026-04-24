@@ -66,4 +66,22 @@ public class HUD {
         font.draw(batch, "Time: " + (int) survivalTime + "s", screenWidth / 2f - 40, screenHeight / 2f - 40);
         font.draw(batch, "Press R to Restart", screenWidth / 2f - 80, screenHeight / 2f - 80);
     }
+
+
+    public void drawWaveIntro(SpriteBatch batch, BitmapFont font, int currentWave) {
+        int screenWidth = Gdx.graphics.getWidth();
+        int screenHeight = Gdx.graphics.getHeight();
+        font.setColor(Color.WHITE);
+        font.draw(batch, "WAVE " + currentWave, screenWidth / 2f - 70, screenHeight / 2f + 50);
+    }
+
+    public void drawGameWin(SpriteBatch batch, BitmapFont font, int score, float survivalTime) {
+        int screenWidth = Gdx.graphics.getWidth();
+        int screenHeight = Gdx.graphics.getHeight();
+        font.setColor(Color.WHITE);
+        font.draw(batch, "GAME OVER", screenWidth / 2f - 60, screenHeight / 2f + 40);
+        font.draw(batch, "Score: " + score, screenWidth / 2f - 40, screenHeight / 2f);
+        font.draw(batch, "Time: " + (int) survivalTime + "s", screenWidth / 2f - 40, screenHeight / 2f - 40);
+        font.draw(batch, "Press R to Restart", screenWidth / 2f - 80, screenHeight / 2f - 80);
+    }
 }

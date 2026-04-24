@@ -27,6 +27,7 @@ public class Main extends ApplicationAdapter {
     private Player player;
     private BulletManager bulletManager;
     private EnemyManager enemyManager;
+    private WaveManager waveManager;
     private ParticleSystem particleSystem;
     private DropManager dropManager;
     private CollisionSystem collisionSystem;
@@ -71,6 +72,7 @@ public class Main extends ApplicationAdapter {
         player = new Player(PLAYER_START_X, PLAYER_START_Y, PLAYER_SIZE);
         bulletManager = new BulletManager();
         enemyManager = new EnemyManager();
+        waveManager = new WaveManager();
         particleSystem = new ParticleSystem();
         dropManager = new DropManager();
         collisionSystem = new CollisionSystem();
@@ -82,6 +84,7 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void render() {
+        float delta = Gdx.graphics.getDeltaTime();
         if (mainMenu) {
             ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1f);
             spriteBatch.begin();
@@ -100,7 +103,25 @@ public class Main extends ApplicationAdapter {
             return;
         }
 
-        float delta = Gdx.graphics.getDeltaTime();
+        if (waveManager.gameWon) {
+            waveManager.tickIntro(delta);
+            ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1f);
+            spriteBatch.begin();
+            hud.drawGameWin(spriteBatch, font, score, survivalTime);
+            spriteBatch.end();
+            if (Gdx.input.isKeyJustPressed(Input.Keys.R)) restartGame();
+            return;
+        }
+
+        if (waveManager.betweenWaves) {
+            waveManager.tickIntro(delta);
+            ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1f);
+            spriteBatch.begin();
+            hud.drawWaveIntro(spriteBatch, font, waveManager.currentWave);
+            spriteBatch.end();
+            return;
+        }
+
         survivalTime += delta;
 
         mouseWorldPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -116,7 +137,7 @@ public class Main extends ApplicationAdapter {
 
         player.update(delta, bulletManager.bullets, aimDirectionX, aimDirectionY, shootSound);
         bulletManager.update(delta);
-        enemyManager.update(delta, survivalTime, player.centerX(), player.centerY());
+        enemyManager.update(waveManager, delta, player.centerX(), player.centerY());
         particleSystem.update(delta);
         dropManager.update(delta, player, pickupSound);
 
@@ -183,6 +204,7 @@ public class Main extends ApplicationAdapter {
         bulletManager.clear();
         enemyManager.clear();
         particleSystem.clear();
+        waveManager.clear();
         dropManager.clear();
         score = 0;
         survivalTime = 0f;
