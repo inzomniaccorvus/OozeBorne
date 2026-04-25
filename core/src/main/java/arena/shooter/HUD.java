@@ -79,7 +79,7 @@ public class HUD {
         int screenWidth = Gdx.graphics.getWidth();
         int screenHeight = Gdx.graphics.getHeight();
         font.setColor(Color.WHITE);
-        font.draw(batch, "GAME OVER", screenWidth / 2f - 60, screenHeight / 2f + 40);
+        font.draw(batch, "GAME WON", screenWidth / 2f - 60, screenHeight / 2f + 40);
         font.draw(batch, "Score: " + score, screenWidth / 2f - 40, screenHeight / 2f);
         font.draw(batch, "Time: " + (int) survivalTime + "s", screenWidth / 2f - 40, screenHeight / 2f - 40);
         font.draw(batch, "Press R to Restart", screenWidth / 2f - 80, screenHeight / 2f - 80);

@@ -104,7 +104,6 @@ public class Main extends ApplicationAdapter {
         }
 
         if (waveManager.gameWon) {
-            waveManager.tickIntro(delta);
             ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1f);
             spriteBatch.begin();
             hud.drawGameWin(spriteBatch, font, score, survivalTime);

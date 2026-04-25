@@ -5,11 +5,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
-public class AmalgaEnemy extends Enemy {
+public class AmalgamEnemy extends Enemy {
 
     public int phase;
+    public boolean isMini;
 
-    public boolean split;
+    public boolean shouldSplit;
+    public int lastSummonHP;
+    public boolean canSummon;
+
 
     public boolean dashing;
     public float dashTimer;
@@ -33,8 +37,9 @@ public class AmalgaEnemy extends Enemy {
     private float reflectCooldown = 8f;
     public float reflectCooldownTimer;
 
-    public AmalgaEnemy(float x, float y, float speed) {
+    public AmalgamEnemy(float x, float y, float speed) {
         super(x, y, 60f, speed, 150, Color.LIGHT_GRAY, 200);
+        this.isMini = false;
         reflectTimer = 0f;
         reflectCooldownTimer = reflectCooldown;
         hitCount = 0;
@@ -42,11 +47,36 @@ public class AmalgaEnemy extends Enemy {
         reflecting = false;
         dashing = false;
         phase = 1;
-        split = false;
+        shouldSplit = false;
+        lastSummonHP = 150;
+        canSummon = false;
         dashTimer = 0f;
         shootTimer = 0f;
         spiralAngle = 0f;
         dashDuration = 0f;
+        bossBullets = new Array<>();
+    }
+
+    public AmalgamEnemy(float x, float y, float speed, boolean isMini) {
+        super(x, y, 35f, speed, 30, Color.LIGHT_GRAY, 50);
+        this.isMini = isMini;
+        reflectTimer = 0f;
+        reflectCooldownTimer = reflectCooldown;
+        hitCount = 0;
+        hitWindowTimer = 0f;
+        reflecting = false;
+        dashing = false;
+        phase = 1;
+        shouldSplit = false;
+        canSummon = false;
+        lastSummonHP = 30;
+        dashTimer = 0f;
+        dashInterval = 6f;
+        shootTimer = 0f;
+        shootInterval = 3f;
+        spiralAngle = 0f;
+        dashDuration = 0f;
+        reflectCooldown = 12f;
         bossBullets = new Array<>();
     }
 
@@ -119,6 +149,17 @@ public class AmalgaEnemy extends Enemy {
         } else {
             reflectCooldownTimer += delta;
         }
+
+        if (!isMini && lastSummonHP - hp >= 30) {
+            lastSummonHP = hp;
+            canSummon = true;
+        }
+
+        if (!isMini && hp <= 25) {
+            shouldSplit = true;
+        }
+
+
     }
 
     public void updateBullets(float delta) {

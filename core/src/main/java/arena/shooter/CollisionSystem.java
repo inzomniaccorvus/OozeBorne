@@ -22,7 +22,7 @@ public class CollisionSystem {
                 float distance = (float) Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
                 if (distance < bullet.size + enemy.size) {
-                    if (enemy instanceof AmalgaEnemy && ((AmalgaEnemy) enemy).reflecting) {
+                    if (enemy instanceof AmalgamEnemy && ((AmalgamEnemy) enemy).reflecting) {
                         bullet.dirX *= -1;
                         bullet.dirY *= -1;
                         break;
@@ -70,12 +70,12 @@ public class CollisionSystem {
 
     public void checkEnemyBulletPlayerCollisions(Player player, EnemyManager enemyManager) {
         for (Enemy enemy : enemyManager.enemies) {
-            if (!(enemy instanceof ShooterEnemy || enemy instanceof AmalgaEnemy)) continue;
+            if (!(enemy instanceof ShooterEnemy || enemy instanceof AmalgamEnemy)) continue;
             Array<Bullet> bullets;
             if (enemy instanceof ShooterEnemy) {
                 bullets = ((ShooterEnemy) enemy).enemyBullets;
             } else {
-                bullets = ((AmalgaEnemy) enemy).bossBullets;
+                bullets = ((AmalgamEnemy) enemy).bossBullets;
             }
             for (int i = bullets.size - 1; i >= 0; i--) {
                 Bullet bullet = bullets.get(i);

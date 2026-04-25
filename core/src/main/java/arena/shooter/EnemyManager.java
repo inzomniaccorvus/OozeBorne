@@ -21,6 +21,11 @@ public class EnemyManager {
             if (enemy instanceof ShooterEnemy) {
                 ((ShooterEnemy) enemy).updateBullets(delta);
             }
+
+            if (enemy instanceof AmalgamEnemy) {
+                ((AmalgamEnemy) enemy).updateBullets(delta);
+            }
+
         }
     }
 
@@ -32,6 +37,10 @@ public class EnemyManager {
         for (Enemy enemy : enemies) {
             if (enemy instanceof ShooterEnemy) {
                 ((ShooterEnemy) enemy).drawBullets(shape);
+            }
+
+            if (enemy instanceof AmalgamEnemy) {
+                ((AmalgamEnemy) enemy).drawBullets(shape);
             }
         }
     }
