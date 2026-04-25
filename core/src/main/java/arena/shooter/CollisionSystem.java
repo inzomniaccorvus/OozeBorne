@@ -22,6 +22,11 @@ public class CollisionSystem {
                 float distance = (float) Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
                 if (distance < bullet.size + enemy.size) {
+                    if (enemy instanceof AmalgaEnemy && ((AmalgaEnemy) enemy).reflecting) {
+                        bullet.dirX *= -1;
+                        bullet.dirY *= -1;
+                        break;
+                    }
                     enemy.takeDamage(bullet.damage);
                     hitSound.play(0.6f);
                     particleSystem.spawnDamageNumber(enemy.x, enemy.y, bullet.damage);
@@ -30,8 +35,8 @@ public class CollisionSystem {
                     if (enemy.isDead()) {
                         explosionSound.play(0.8f);
                         particleSystem.spawnDeathParticles(enemy.x, enemy.y, enemy.color);
-                        if(enemy instanceof SplitterEnemy){
-                            ((SplitterEnemy)enemy).split(enemies);
+                        if (enemy instanceof SplitterEnemy) {
+                            ((SplitterEnemy) enemy).split(enemies);
                         }
                         enemies.removeIndex(j);
                         score += enemy.scoreValue;
@@ -65,8 +70,13 @@ public class CollisionSystem {
 
     public void checkEnemyBulletPlayerCollisions(Player player, EnemyManager enemyManager) {
         for (Enemy enemy : enemyManager.enemies) {
-            if (!(enemy instanceof ShooterEnemy)) continue;
-            Array<Bullet> bullets = ((ShooterEnemy) enemy).enemyBullets;
+            if (!(enemy instanceof ShooterEnemy || enemy instanceof AmalgaEnemy)) continue;
+            Array<Bullet> bullets;
+            if (enemy instanceof ShooterEnemy) {
+                bullets = ((ShooterEnemy) enemy).enemyBullets;
+            } else {
+                bullets = ((AmalgaEnemy) enemy).bossBullets;
+            }
             for (int i = bullets.size - 1; i >= 0; i--) {
                 Bullet bullet = bullets.get(i);
                 float dx = bullet.x - player.centerX();
