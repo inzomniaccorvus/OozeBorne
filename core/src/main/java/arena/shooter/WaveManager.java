@@ -215,10 +215,15 @@ public class WaveManager {
 
     public void clear() {
         waves.clear();
+        for (int i = 0; i < numberOfWaves; i++) {
+            waves.add(new Wave(1, 1, 1, 1, 1, 2f, -1, 80f));
+        }
         currentWave = 0;
         spawnIndex = 0;
+        introTimer = 0;
+        edgeChangeTimer = 0;
         betweenWaves = true;
-        gameWon = true;
+        gameWon = false;
         bossSpawned = false;
     }
 }
