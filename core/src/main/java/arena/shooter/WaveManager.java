@@ -36,8 +36,8 @@ public class WaveManager {
 
     public void spawnWave(Wave wave, Array<Enemy> enemies) {
 
-        int screenWidth = Gdx.graphics.getWidth();
-        int screenHeight = Gdx.graphics.getHeight();
+        int screenWidth = 1366;
+        int screenHeight = 768;
 
         if (wave.spawnEdge == -1) {
             if (edgeChangeTimer >= edgeChangeInterval) {
@@ -98,8 +98,8 @@ public class WaveManager {
     }
 
     public void spawnWave10(Wave wave, Array<Enemy> enemies) {
-        int screenWidth = Gdx.graphics.getWidth();
-        int screenHeight = Gdx.graphics.getHeight();
+        int screenWidth = 1366;
+        int screenHeight = 768;
 
         if (wave.spawnEdge == -1) {
             if (edgeChangeTimer >= edgeChangeInterval) {

@@ -55,8 +55,8 @@ public class Player {
         if (Gdx.input.isKeyPressed(Input.Keys.A)) x -= movementSpeed * delta;
         if (Gdx.input.isKeyPressed(Input.Keys.D)) x += movementSpeed * delta;
 
-        x = Math.max(0, Math.min(Gdx.graphics.getWidth() - size, x));
-        y = Math.max(0, Math.min(Gdx.graphics.getHeight() - size, y));
+        x = Math.max(0, Math.min(1366 - size, x));
+        y = Math.max(0, Math.min(768 - size, y));
 
         fireTimer -= delta;
         invincibilityTimer -= delta;

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Main extends ApplicationAdapter {
     private ShapeRenderer shapeRenderer;
@@ -18,6 +19,8 @@ public class Main extends ApplicationAdapter {
     private BitmapFont font;
     private OrthographicCamera camera;
     private Vector3 mouseWorldPosition;
+    private FitViewport viewport;
+
 
     private Sound shootSound;
     private Sound hitSound;
@@ -32,7 +35,6 @@ public class Main extends ApplicationAdapter {
     private DropManager dropManager;
     private CollisionSystem collisionSystem;
     private HUD hud;
-    private Arena arena;
 
     private int score;
     private float survivalTime;
@@ -59,7 +61,7 @@ public class Main extends ApplicationAdapter {
         font.getData().setScale(1.5f);
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        viewport = new FitViewport(1366, 768, camera);
         mouseWorldPosition = new Vector3();
 
         Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -77,11 +79,15 @@ public class Main extends ApplicationAdapter {
         particleSystem = new ParticleSystem();
         dropManager = new DropManager();
         collisionSystem = new CollisionSystem();
-        arena = new Arena(0);
         hud = new HUD();
 
         mainMenu = true;
         gameOver = false;
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height, true);
     }
 
     @Override
@@ -126,7 +132,7 @@ public class Main extends ApplicationAdapter {
         survivalTime += delta;
 
         mouseWorldPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-        camera.unproject(mouseWorldPosition);
+        viewport.unproject(mouseWorldPosition);
         float mouseX = mouseWorldPosition.x;
         float mouseY = mouseWorldPosition.y;
 
@@ -161,8 +167,9 @@ public class Main extends ApplicationAdapter {
             return;
         }
 
-        camera.position.set(Gdx.graphics.getWidth() / 2f + shakeOffsetX, Gdx.graphics.getHeight() / 2f + shakeOffsetY, 0);
+        camera.position.set(1366 / 2f + shakeOffsetX, 768 / 2f + shakeOffsetY, 0);
         camera.update();
+        viewport.apply();
         shapeRenderer.setProjectionMatrix(camera.combined);
         spriteBatch.setProjectionMatrix(camera.combined);
 

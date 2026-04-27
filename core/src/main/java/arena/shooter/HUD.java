@@ -23,7 +23,7 @@ public class HUD {
     }
 
     public void drawGameInfo(SpriteBatch batch, BitmapFont font, Player player, int score, float survivalTime) {
-        int screenHeight = Gdx.graphics.getHeight();
+        int screenHeight = 768;
 
         font.setColor(Color.WHITE);
         font.draw(batch, player.hp + "/100", HP_BAR_X + HP_BAR_WIDTH + 10, HP_BAR_Y + HP_BAR_HEIGHT);
@@ -50,16 +50,16 @@ public class HUD {
     }
 
     public void drawMainMenu(SpriteBatch batch, BitmapFont font) {
-        int screenWidth = Gdx.graphics.getWidth();
-        int screenHeight = Gdx.graphics.getHeight();
+        int screenWidth = 1366;
+        int screenHeight = 768;
         font.setColor(Color.WHITE);
         font.draw(batch, "ARENA SHOOTER", screenWidth / 2f - 90, screenHeight / 2f + 40);
         font.draw(batch, "Press ENTER to Start", screenWidth / 2f - 100, screenHeight / 2f - 20);
     }
 
     public void drawGameOver(SpriteBatch batch, BitmapFont font, int score, float survivalTime) {
-        int screenWidth = Gdx.graphics.getWidth();
-        int screenHeight = Gdx.graphics.getHeight();
+        int screenWidth = 1366;
+        int screenHeight = 768;
         font.setColor(Color.WHITE);
         font.draw(batch, "GAME OVER", screenWidth / 2f - 60, screenHeight / 2f + 40);
         font.draw(batch, "Score: " + score, screenWidth / 2f - 40, screenHeight / 2f);
@@ -69,15 +69,15 @@ public class HUD {
 
 
     public void drawWaveIntro(SpriteBatch batch, BitmapFont font, int currentWave) {
-        int screenWidth = Gdx.graphics.getWidth();
-        int screenHeight = Gdx.graphics.getHeight();
+        int screenWidth = 1366;
+        int screenHeight = 768;
         font.setColor(Color.WHITE);
         font.draw(batch, "WAVE " + currentWave, screenWidth / 2f - 70, screenHeight / 2f + 50);
     }
 
     public void drawGameWin(SpriteBatch batch, BitmapFont font, int score, float survivalTime) {
-        int screenWidth = Gdx.graphics.getWidth();
-        int screenHeight = Gdx.graphics.getHeight();
+        int screenWidth = 1366;
+        int screenHeight = 768;
         font.setColor(Color.WHITE);
         font.draw(batch, "GAME WON", screenWidth / 2f - 60, screenHeight / 2f + 40);
         font.draw(batch, "Score: " + score, screenWidth / 2f - 40, screenHeight / 2f);

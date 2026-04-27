@@ -16,7 +16,7 @@ public class BulletManager {
         for (int i = bullets.size - 1; i >= 0; i--) {
             Bullet bullet = bullets.get(i);
             bullet.update(delta);
-            if (bullet.isOffScreen(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())) {
+            if (bullet.isOffScreen(1366,768)) {
                 bullets.removeIndex(i);
             }
         }

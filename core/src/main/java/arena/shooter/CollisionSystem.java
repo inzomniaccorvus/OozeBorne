@@ -25,6 +25,8 @@ public class CollisionSystem {
                     if (enemy instanceof AmalgamEnemy && ((AmalgamEnemy) enemy).reflecting) {
                         bullet.dirX *= -1;
                         bullet.dirY *= -1;
+                        ((AmalgamEnemy) enemy).bossBullets.add(bullet);
+                        bullets.removeIndex(i);
                         break;
                     }
                     enemy.takeDamage(bullet.damage);

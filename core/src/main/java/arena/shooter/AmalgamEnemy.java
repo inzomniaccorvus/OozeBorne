@@ -166,7 +166,7 @@ public class AmalgamEnemy extends Enemy {
         for (int i = bossBullets.size - 1; i >= 0; i--) {
             Bullet bullet = bossBullets.get(i);
             bullet.update(delta);
-            if (bullet.isOffScreen(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())) {
+            if (bullet.isOffScreen(1366,768)) {
                 bossBullets.removeIndex(i);
             }
         }
