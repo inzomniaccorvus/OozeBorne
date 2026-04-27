@@ -32,6 +32,7 @@ public class Main extends ApplicationAdapter {
     private DropManager dropManager;
     private CollisionSystem collisionSystem;
     private HUD hud;
+    private Arena arena;
 
     private int score;
     private float survivalTime;
@@ -76,6 +77,7 @@ public class Main extends ApplicationAdapter {
         particleSystem = new ParticleSystem();
         dropManager = new DropManager();
         collisionSystem = new CollisionSystem();
+        arena = new Arena(0);
         hud = new HUD();
 
         mainMenu = true;
