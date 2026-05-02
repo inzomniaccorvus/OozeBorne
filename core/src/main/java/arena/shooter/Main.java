@@ -3,6 +3,7 @@ package arena.shooter;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -26,6 +27,7 @@ public class Main extends ApplicationAdapter {
     private Sound hitSound;
     private Sound explosionSound;
     private Sound pickupSound;
+    private Music bgMusic;
 
     private Player player;
     private BulletManager bulletManager;
@@ -35,6 +37,7 @@ public class Main extends ApplicationAdapter {
     private DropManager dropManager;
     private CollisionSystem collisionSystem;
     private HUD hud;
+    private ScoreManager scoreManager;
 
     private int score;
     private float survivalTime;
@@ -71,6 +74,10 @@ public class Main extends ApplicationAdapter {
         hitSound = Gdx.audio.newSound(Gdx.files.internal("hitHurt.wav"));
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.wav"));
         pickupSound = Gdx.audio.newSound(Gdx.files.internal("powerUp.wav"));
+        bgMusic = Gdx.audio.newMusic(Gdx.files.internal("bgmusic.mp3"));
+        bgMusic.setLooping(true);
+        bgMusic.setVolume(0.4f);
+        bgMusic.play();
 
         player = new Player(PLAYER_START_X, PLAYER_START_Y, PLAYER_SIZE);
         bulletManager = new BulletManager();
@@ -80,6 +87,8 @@ public class Main extends ApplicationAdapter {
         dropManager = new DropManager();
         collisionSystem = new CollisionSystem();
         hud = new HUD();
+        scoreManager = new ScoreManager();
+        scoreManager.load();
 
         mainMenu = true;
         gameOver = false;
@@ -103,6 +112,7 @@ public class Main extends ApplicationAdapter {
         }
 
         if (gameOver) {
+            scoreManager.addScore(score);
             ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1f);
             spriteBatch.begin();
             hud.drawGameOver(spriteBatch, font, score, survivalTime);
@@ -112,6 +122,7 @@ public class Main extends ApplicationAdapter {
         }
 
         if (waveManager.gameWon) {
+            scoreManager.addScore(score);
             ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1f);
             spriteBatch.begin();
             hud.drawGameWin(spriteBatch, font, score, survivalTime);
@@ -221,5 +232,6 @@ public class Main extends ApplicationAdapter {
         shakeOffsetY = 0f;
         gameOver = false;
         mainMenu = false;
+        bgMusic.dispose();
     }
 }
