@@ -61,12 +61,7 @@ public class CollisionSystem {
 
             if (distance < enemy.size + player.size / 2) {
                 player.takeDamage(10);
-
-                float pushX = enemy.x - player.centerX();
-                float pushY = enemy.y - player.centerY();
-                float len = (float) Math.sqrt(pushX * pushX + pushY * pushY);
-                enemy.x += (pushX / len) * 40f;
-                enemy.y += (pushY / len) * 40f;
+                enemy.applyKnockback(distanceX / distance, distanceY / distance);
             }
         }
     }

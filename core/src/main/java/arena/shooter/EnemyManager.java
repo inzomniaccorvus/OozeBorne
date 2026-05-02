@@ -16,9 +16,11 @@ public class EnemyManager {
 
         for (Enemy enemy : enemies) {
             enemy.update(delta, playerCenterX, playerCenterY);
-            enemy.applySeparation(enemies, delta);
+            if(!enemy.knockBacked) {
+                enemy.applySeparation(enemies, delta);
+            }
 
-            if (enemy instanceof ShooterEnemy) {
+            if (enemy instanceof ShooterEnemy && !enemy.knockBacked) {
                 ((ShooterEnemy) enemy).updateBullets(delta);
             }
 
