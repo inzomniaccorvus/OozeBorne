@@ -7,9 +7,13 @@ import com.badlogic.gdx.utils.Array;
 
 public class BulletManager {
     public Array<Bullet> bullets;
+    public int bulletsFired;
+    public int bulletsHit;
 
     public BulletManager() {
         bullets = new Array<>();
+        bulletsFired = 0;
+        bulletsHit = 0;
     }
 
     public void update(float delta) {
@@ -29,7 +33,14 @@ public class BulletManager {
         }
     }
 
+    public void addBullet(Bullet bullet) {
+        bullets.add(bullet);
+        bulletsFired++;
+    }
+
     public void clear() {
         bullets.clear();
+        bulletsFired = 0;
+        bulletsHit = 0;
     }
 }

@@ -153,7 +153,7 @@ public class Main extends ApplicationAdapter {
         float aimDirectionX = aimDeltaX / aimLength;
         float aimDirectionY = aimDeltaY / aimLength;
 
-        player.update(delta, bulletManager.bullets, aimDirectionX, aimDirectionY, shootSound);
+        player.update(delta, bulletManager, aimDirectionX, aimDirectionY, shootSound);
         bulletManager.update(delta);
         enemyManager.update(waveManager, delta, player.centerX(), player.centerY());
         particleSystem.update(delta);

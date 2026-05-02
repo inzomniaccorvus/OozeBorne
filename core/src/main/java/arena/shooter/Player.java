@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.Array;
 
 public class Player {
     public float x;
@@ -47,7 +46,7 @@ public class Player {
         return y + size / 2;
     }
 
-    public void update(float delta, Array<Bullet> bullets, float aimDirectionX, float aimDirectionY, Sound shootSound) {
+    public void update(float delta, BulletManager bulletManager, float aimDirectionX, float aimDirectionY, Sound shootSound) {
         float movementSpeed = speedBoostTimer > 0 ? BOOSTED_SPEED : BASE_SPEED;
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) y += movementSpeed * delta;
@@ -72,14 +71,14 @@ public class Player {
             }
         }
 
-        handleShooting(bullets, aimDirectionX, aimDirectionY, shootSound);
+        handleShooting(bulletManager, aimDirectionX, aimDirectionY, shootSound);
     }
 
-    private void handleShooting(Array<Bullet> bullets, float aimDirectionX, float aimDirectionY, Sound shootSound) {
+    private void handleShooting(BulletManager bulletManager, float aimDirectionX, float aimDirectionY, Sound shootSound) {
         if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT) || fireTimer > 0) return;
         switch (currentWeapon) {
             case PISTOL:
-                bullets.add(makeBullet(aimDirectionX, aimDirectionY, 0f));
+                bulletManager.addBullet(makeBullet(aimDirectionX, aimDirectionY, 0f));
                 shootSound.play(0.4f);
                 fireTimer = firerateBoostTimer > 0 ? 0.1f : 0.3f;
                 break;
@@ -89,21 +88,21 @@ public class Player {
                 float[] spreadOffsets = new float[]{-0.35f, -0.175f, 0f, 0.175f, 0.35f};
                 for (float offset : spreadOffsets) {
                     float spreadAngle = baseAngle + offset;
-                    bullets.add(makeBullet((float) Math.cos(spreadAngle), (float) Math.sin(spreadAngle), 0f));
+                    bulletManager.addBullet(makeBullet((float) Math.cos(spreadAngle), (float) Math.sin(spreadAngle), 0f));
                 }
                 shootSound.play(0.4f);
                 fireTimer = firerateBoostTimer > 0 ? 0.3f : 0.6f;
                 break;
 
             case RAPID_FIRE:
-                bullets.add(makeBullet(aimDirectionX, aimDirectionY, 0f));
+                bulletManager.addBullet(makeBullet(aimDirectionX, aimDirectionY, 0f));
                 shootSound.play(0.4f);
                 fireTimer = firerateBoostTimer > 0 ? 0.05f : 0.1f;
                 break;
 
             case BURST:
                 for (int i = 0; i < 3; i++) {
-                    bullets.add(makeBullet(aimDirectionX, aimDirectionY, i * 8f));
+                    bulletManager.addBullet(makeBullet(aimDirectionX, aimDirectionY, i * 8f));
                 }
                 shootSound.play(0.4f);
                 fireTimer = firerateBoostTimer > 0 ? 0.2f : 0.4f;

@@ -17,6 +17,7 @@ public class WaveManager {
     private float edgeChangeInterval = 8f;
 
     public boolean bossSpawned;
+    public int currentMap;
 
     public WaveManager() {
         waves = new Array<Wave>();
@@ -28,10 +29,17 @@ public class WaveManager {
         spawnIndex = 0;
         edgeChangeTimer = 0;
 
-        //Placeholder for all 10 waves
-        for (int i = 0; i < numberOfWaves; i++) {
-            waves.add(new Wave(1, 1, 1, 1, 1, 2f, -1, 80f));
-        }
+        // Wave setup - I think I should comment for my own sanity maybe later.
+        waves.add(new Wave(6, 0, 0, 0, 0, 2.5f, -1, 80f));
+        waves.add(new Wave(5, 3, 0, 0, 0, 2f, -1, 90f));
+        waves.add(new Wave(5, 4, 0, 0, 0, 1.8f, -1, 95f));
+        waves.add(new Wave(4, 3, 2, 0, 0, 1.8f, -1, 100f));
+        waves.add(new Wave(4, 2, 1, 2, 0, 1.5f, -1, 105f));
+        waves.add(new Wave(3, 2, 2, 3, 0, 1.5f, -1, 110f));
+        waves.add(new Wave(3, 3, 1, 1, 2, 1.3f, -1, 115f));
+        waves.add(new Wave(4, 3, 2, 2, 2, 1.2f, -1, 120f));
+        waves.add(new Wave(3, 5, 1, 2, 3, 1f, -1, 130f));
+        waves.add(new Wave(0, 0, 0, 0, 0, 1f, -1, 140f));
     }
 
     public void spawnWave(Wave wave, Array<Enemy> enemies) {
@@ -131,8 +139,9 @@ public class WaveManager {
                 break;
         }
 
-            enemies.add(new AmalgamEnemy(spawnX, spawnY, wave.speed * 0.25f));
+        enemies.add(new AmalgamEnemy(spawnX, spawnY, wave.speed * 0.25f));
     }
+
     public void update(Array<Enemy> enemies, float delta) {
         if (betweenWaves) {
             return;
@@ -145,6 +154,11 @@ public class WaveManager {
             spawnTimer = 0f;
             edgeChangeTimer = 0f;
             currentWave++;
+            if (currentWave < 2) currentMap = 0;
+            else if (currentWave < 4) currentMap = 1;
+            else if (currentWave < 6) currentMap = 2;
+            else if (currentWave < 8) currentMap = 3;
+            else currentMap = 4;
             if (currentWave >= waves.size) {
                 gameWon = true;
                 return;

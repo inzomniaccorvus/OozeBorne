@@ -32,6 +32,7 @@ public class CollisionSystem {
                     enemy.takeDamage(bullet.damage);
                     hitSound.play(0.6f);
                     particleSystem.spawnDamageNumber(enemy.x, enemy.y, bullet.damage);
+                    bulletManager.bulletsHit++;
                     bullets.removeIndex(i);
 
                     if (enemy.isDead()) {
