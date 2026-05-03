@@ -1,6 +1,6 @@
-package arena.shooter;
+package arena.shooter.systems;
 
-import com.badlogic.gdx.Gdx;
+import arena.shooter.entities.Bullet;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;

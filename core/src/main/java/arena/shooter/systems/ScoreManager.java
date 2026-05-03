@@ -1,4 +1,4 @@
-package arena.shooter;
+package arena.shooter.systems;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;

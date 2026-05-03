@@ -1,6 +1,6 @@
-package arena.shooter;
+package arena.shooter.ui;
 
-import com.badlogic.gdx.Gdx;
+import arena.shooter.entities.Player;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

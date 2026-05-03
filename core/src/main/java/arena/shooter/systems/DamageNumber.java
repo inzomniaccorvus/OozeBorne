@@ -1,4 +1,4 @@
-package arena.shooter;
+package arena.shooter.systems;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

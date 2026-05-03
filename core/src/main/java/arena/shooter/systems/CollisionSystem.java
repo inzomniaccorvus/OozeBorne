@@ -1,5 +1,7 @@
-package arena.shooter;
+package arena.shooter.systems;
 
+import arena.shooter.entities.Bullet;
+import arena.shooter.entities.*;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
 

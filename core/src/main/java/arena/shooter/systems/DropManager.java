@@ -1,6 +1,7 @@
-package arena.shooter;
+package arena.shooter.systems;
 
-import com.badlogic.gdx.Gdx;
+import arena.shooter.entities.Drop;
+import arena.shooter.entities.Player;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;

@@ -1,6 +1,5 @@
-package arena.shooter;
+package arena.shooter.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
@@ -9,7 +8,7 @@ public class ShooterEnemy extends Enemy {
 
     float shootTimer;
     float shootInterval;
-    Array<Bullet> enemyBullets;
+    public Array<Bullet> enemyBullets;
 
     public ShooterEnemy(float x, float y, float speed) {
         super(x, y, 20f, speed, 3, Color.MAGENTA, 20);

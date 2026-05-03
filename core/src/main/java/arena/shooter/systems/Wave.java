@@ -1,11 +1,11 @@
-package arena.shooter;
+package arena.shooter.systems;
 
 import com.badlogic.gdx.utils.Array;
 
 public class Wave {
     public int basicCount, fastCount, tankCount, shooterCount, splitterCount, totalCount;
     public float spawnInterval;
-    int spawnEdge;
+    public int spawnEdge;
     public float speed;
     public Array<String> spawnQueue;
 

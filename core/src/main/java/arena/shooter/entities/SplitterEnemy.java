@@ -1,4 +1,4 @@
-package arena.shooter;
+package arena.shooter.entities;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Array;

@@ -1,5 +1,8 @@
-package arena.shooter;
+package arena.shooter.systems;
 
+import arena.shooter.entities.AmalgamEnemy;
+import arena.shooter.entities.Enemy;
+import arena.shooter.entities.ShooterEnemy;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 

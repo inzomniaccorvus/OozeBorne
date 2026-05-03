@@ -1,4 +1,4 @@
-package arena.shooter;
+package arena.shooter.entities;
 
 public class Bullet {
     public float x,y;

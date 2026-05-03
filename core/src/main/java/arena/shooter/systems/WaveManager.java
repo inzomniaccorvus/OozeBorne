@@ -1,6 +1,6 @@
-package arena.shooter;
+package arena.shooter.systems;
 
-import com.badlogic.gdx.Gdx;
+import arena.shooter.entities.*;
 import com.badlogic.gdx.utils.Array;
 
 public class WaveManager {
