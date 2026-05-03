@@ -2,13 +2,14 @@ package arena.shooter.systems;
 
 import arena.shooter.entities.Drop;
 import arena.shooter.entities.Player;
+import arena.shooter.util.Drawable;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
 
-public class DropManager {
+public class DropManager implements Drawable {
     Array<Drop> drops;
 
     private float weaponDropTimer;

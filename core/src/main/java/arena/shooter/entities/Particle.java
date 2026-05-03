@@ -1,9 +1,10 @@
 package arena.shooter.entities;
 
+import arena.shooter.util.Drawable;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Particle {
+public class Particle implements Drawable {
     public float x;
     public float y;
     public float dirX;

@@ -1,13 +1,14 @@
 package arena.shooter.systems;
 
 import arena.shooter.entities.Particle;
+import arena.shooter.util.Drawable;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
-public class ParticleSystem {
+public class ParticleSystem implements Drawable {
     private Array<Particle> particles;
     private Array<DamageNumber> damageNumbers;
 
@@ -52,6 +53,11 @@ public class ParticleSystem {
         for (DamageNumber damageNumber : damageNumbers) {
             damageNumber.draw(batch, font);
         }
+    }
+
+    @Override
+    public void draw(ShapeRenderer shape) {
+        drawShapes(shape);
     }
 
     public void clear() {

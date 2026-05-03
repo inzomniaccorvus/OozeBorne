@@ -1,11 +1,12 @@
 package arena.shooter.systems;
 
 import arena.shooter.entities.Bullet;
+import arena.shooter.util.Drawable;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
-public class BulletManager {
+public class BulletManager implements Drawable{
     public Array<Bullet> bullets;
     public int bulletsFired;
     public int bulletsHit;

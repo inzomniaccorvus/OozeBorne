@@ -1,13 +1,16 @@
 package arena.shooter.entities;
 
 import arena.shooter.systems.BulletManager;
+import arena.shooter.util.Damageable;
+import arena.shooter.util.Drawable;
+import arena.shooter.util.Updatable;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Player {
+public class Player implements Drawable, Damageable {
     public float x;
     public float y;
     public float size;

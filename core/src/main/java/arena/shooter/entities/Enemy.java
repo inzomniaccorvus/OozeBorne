@@ -1,10 +1,14 @@
 package arena.shooter.entities;
 
+import arena.shooter.util.Damageable;
+import arena.shooter.util.Drawable;
+import arena.shooter.util.Updatable;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Enemy {
+public class Enemy implements Drawable, Damageable {
     public float x, y;
     public float size;
     public float speed;
