@@ -2,6 +2,7 @@
 package arena.shooter.screens;
 
 import arena.shooter.Main;
+import arena.shooter.core.Constants;
 import arena.shooter.entities.*;
 import arena.shooter.systems.*;
 import arena.shooter.ui.HUD;
@@ -40,13 +41,6 @@ public class GameScreen extends ScreenAdapter {
     private float shakeOffsetX;
     private float shakeOffsetY;
 
-    private static final float SHAKE_INTENSITY = 5f;
-    private static final float SHAKE_DURATION = 0.2f;
-    private static final float PLAYER_START_X = 300f;
-    private static final float PLAYER_START_Y = 250f;
-    private static final float PLAYER_SIZE = 30f;
-    private static final int SCREEN_WIDTH = 1366;
-    private static final int SCREEN_HEIGHT = 768;
 
     public GameScreen(Main game) {
         this.game = game;
@@ -57,17 +51,17 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer = new ShapeRenderer();
 
         camera = new OrthographicCamera();
-        viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
+        viewport = new FitViewport(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, camera);
 
         hudCamera = new OrthographicCamera();
-        hudViewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, hudCamera);
+        hudViewport = new FitViewport(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, hudCamera);
 
         mouseWorldPosition = new Vector3();
 
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        player = new Player(PLAYER_START_X, PLAYER_START_Y, PLAYER_SIZE);
+        player = new Player(Constants.PLAYER_START_X, Constants.PLAYER_START_Y, Constants.PLAYER_SIZE);
         bulletManager = new BulletManager();
         enemyManager = new EnemyManager();
         waveManager = new WaveManager();
@@ -122,11 +116,11 @@ public class GameScreen extends ScreenAdapter {
         collisionSystem.checkPlayerEnemyCollisions(player, enemyManager);
         collisionSystem.checkEnemyBulletPlayerCollisions(player, enemyManager);
 
-        if (player.damageFlashTimer > 0) shakeDuration = SHAKE_DURATION;
+        if (player.damageFlashTimer > 0) shakeDuration = Constants.SHAKE_DURATION;
         if (shakeDuration > 0) {
             shakeDuration -= delta;
-            shakeOffsetX = (float) (Math.random() * SHAKE_INTENSITY * 2) - SHAKE_INTENSITY;
-            shakeOffsetY = (float) (Math.random() * SHAKE_INTENSITY * 2) - SHAKE_INTENSITY;
+            shakeOffsetX = (float) (Math.random() * Constants.SHAKE_INTENSITY * 2) - Constants.SHAKE_INTENSITY;
+            shakeOffsetY = (float) (Math.random() * Constants.SHAKE_INTENSITY * 2) - Constants.SHAKE_INTENSITY;
         } else {
             shakeOffsetX = 0;
             shakeOffsetY = 0;
@@ -138,9 +132,9 @@ public class GameScreen extends ScreenAdapter {
             return;
         }
 
-        camera.position.set(SCREEN_WIDTH / 2f + shakeOffsetX, SCREEN_HEIGHT / 2f + shakeOffsetY, 0);
+        camera.position.set(Constants.SCREEN_WIDTH / 2f + shakeOffsetX, Constants.SCREEN_HEIGHT / 2f + shakeOffsetY, 0);
         camera.update();
-        hudCamera.position.set(SCREEN_WIDTH / 2f, SCREEN_HEIGHT / 2f, 0);
+        hudCamera.position.set(Constants.SCREEN_WIDTH / 2f, Constants.SCREEN_HEIGHT / 2f, 0);
         hudCamera.update();
 
         viewport.apply();

@@ -1,5 +1,6 @@
 package arena.shooter.entities;
 
+import arena.shooter.core.Constants;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
@@ -165,7 +166,7 @@ public class AmalgamEnemy extends Enemy {
         for (int i = bossBullets.size - 1; i >= 0; i--) {
             Bullet bullet = bossBullets.get(i);
             bullet.update(delta);
-            if (bullet.isOffScreen(1366,768)) {
+            if (bullet.isOffScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)) {
                 bossBullets.removeIndex(i);
             }
         }

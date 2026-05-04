@@ -1,12 +1,13 @@
 package arena.shooter.systems;
 
+import arena.shooter.core.Constants;
 import arena.shooter.entities.Bullet;
 import arena.shooter.util.Drawable;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
-public class BulletManager implements Drawable{
+public class BulletManager implements Drawable {
     public Array<Bullet> bullets;
     public int bulletsFired;
     public int bulletsHit;
@@ -21,7 +22,7 @@ public class BulletManager implements Drawable{
         for (int i = bullets.size - 1; i >= 0; i--) {
             Bullet bullet = bullets.get(i);
             bullet.update(delta);
-            if (bullet.isOffScreen(1366,768)) {
+            if (bullet.isOffScreen(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)) {
                 bullets.removeIndex(i);
             }
         }

@@ -1,5 +1,6 @@
 package arena.shooter.systems;
 
+import arena.shooter.core.Constants;
 import arena.shooter.entities.Drop;
 import arena.shooter.entities.Player;
 import arena.shooter.util.Drawable;
@@ -29,16 +30,16 @@ public class DropManager implements Drawable {
 
 
     private void spawnWeaponDrop() {
-        float spawnX = SPAWN_PADDING + (float) (Math.random() * (1366 - SPAWN_PADDING * 2));
-        float spawnY = SPAWN_PADDING + (float) (Math.random() * (768 - SPAWN_PADDING * 2));
+        float spawnX = SPAWN_PADDING + (float) (Math.random() * (Constants.SCREEN_HEIGHT - SPAWN_PADDING * 2));
+        float spawnY = SPAWN_PADDING + (float) (Math.random() * (Constants.SCREEN_HEIGHT - SPAWN_PADDING * 2));
         Drop.Type[] weaponTypes = {Drop.Type.SHOTGUN, Drop.Type.RAPID, Drop.Type.BURST};
         Drop.Type type = weaponTypes[(int) (Math.random() * weaponTypes.length)];
         drops.add(new Drop(spawnX, spawnY, WEAPON_DROP_LIFETIME, type));
     }
 
     private void spawnPowerup() {
-        float spawnX = SPAWN_PADDING + (float) (Math.random() * (1366 - SPAWN_PADDING * 2));
-        float spawnY = SPAWN_PADDING + (float) (Math.random() * (768 - SPAWN_PADDING * 2));
+        float spawnX = SPAWN_PADDING + (float) (Math.random() * (Constants.SCREEN_HEIGHT - SPAWN_PADDING * 2));
+        float spawnY = SPAWN_PADDING + (float) (Math.random() * (Constants.SCREEN_WIDTH - SPAWN_PADDING * 2));
         Drop.Type[] powerupTypes = {Drop.Type.HEAL, Drop.Type.SPEED, Drop.Type.FIRERATE, Drop.Type.ARMORBUSTER};
         Drop.Type type = powerupTypes[(int) (Math.random() * powerupTypes.length)];
         drops.add(new Drop(spawnX, spawnY, -1f, type)); //powerup drops don't disappear

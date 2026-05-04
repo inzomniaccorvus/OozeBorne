@@ -1,5 +1,6 @@
 package arena.shooter.entities;
 
+import arena.shooter.core.Constants;
 import arena.shooter.systems.BulletManager;
 import arena.shooter.util.Damageable;
 import arena.shooter.util.Drawable;
@@ -58,8 +59,8 @@ public class Player implements Drawable, Damageable {
         if (Gdx.input.isKeyPressed(Input.Keys.A)) x -= movementSpeed * delta;
         if (Gdx.input.isKeyPressed(Input.Keys.D)) x += movementSpeed * delta;
 
-        x = Math.max(0, Math.min(1366 - size, x));
-        y = Math.max(0, Math.min(768 - size, y));
+        x = Math.max(0, Math.min(Constants.SCREEN_HEIGHT - size, x));
+        y = Math.max(0, Math.min(Constants.SCREEN_HEIGHT - size, y));
 
         fireTimer -= delta;
         invincibilityTimer -= delta;

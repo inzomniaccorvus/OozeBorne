@@ -28,18 +28,7 @@ public class WaveManager {
         currentEdge = 0;
         spawnIndex = 0;
         edgeChangeTimer = 0;
-
-        // Wave setup - I think I should comment for my own sanity maybe later.
-        waves.add(new Wave(6, 0, 0, 0, 0, 2.5f, -1, 80f));
-        waves.add(new Wave(5, 3, 0, 0, 0, 2f, -1, 90f));
-        waves.add(new Wave(5, 4, 0, 0, 0, 1.8f, -1, 95f));
-        waves.add(new Wave(4, 3, 2, 0, 0, 1.8f, -1, 100f));
-        waves.add(new Wave(4, 2, 1, 2, 0, 1.5f, -1, 105f));
-        waves.add(new Wave(3, 2, 2, 3, 0, 1.5f, -1, 110f));
-        waves.add(new Wave(3, 3, 1, 1, 2, 1.3f, -1, 115f));
-        waves.add(new Wave(4, 3, 2, 2, 2, 1.2f, -1, 120f));
-        waves.add(new Wave(3, 5, 1, 2, 3, 1f, -1, 130f));
-        waves.add(new Wave(0, 0, 0, 0, 0, 1f, -1, 140f));
+        buildWaves();
     }
 
     public void spawnWave(Wave wave, Array<Enemy> enemies) {
@@ -229,9 +218,7 @@ public class WaveManager {
 
     public void clear() {
         waves.clear();
-        for (int i = 0; i < numberOfWaves; i++) {
-            waves.add(new Wave(1, 1, 1, 1, 1, 2f, -1, 80f));
-        }
+        buildWaves();
         currentWave = 0;
         spawnIndex = 0;
         introTimer = 0;
@@ -239,5 +226,19 @@ public class WaveManager {
         betweenWaves = true;
         gameWon = false;
         bossSpawned = false;
+    }
+
+    private void buildWaves() {
+        // Wave setup - I think I should comment for my own sanity maybe later.
+        waves.add(new Wave(6, 0, 0, 0, 0, 2.5f, -1, 80f));
+        waves.add(new Wave(5, 3, 0, 0, 0, 2f, -1, 90f));
+        waves.add(new Wave(5, 4, 0, 0, 0, 1.8f, -1, 95f));
+        waves.add(new Wave(4, 3, 2, 0, 0, 1.8f, -1, 100f));
+        waves.add(new Wave(4, 2, 1, 2, 0, 1.5f, -1, 105f));
+        waves.add(new Wave(3, 2, 2, 3, 0, 1.5f, -1, 110f));
+        waves.add(new Wave(3, 3, 1, 1, 2, 1.3f, -1, 115f));
+        waves.add(new Wave(4, 3, 2, 2, 2, 1.2f, -1, 120f));
+        waves.add(new Wave(3, 5, 1, 2, 3, 1f, -1, 130f));
+        waves.add(new Wave(0, 0, 0, 0, 0, 1f, -1, 140f));
     }
 }

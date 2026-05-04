@@ -1,5 +1,6 @@
 package arena.shooter.systems;
 
+import arena.shooter.core.Constants;
 import arena.shooter.entities.Bullet;
 import arena.shooter.entities.*;
 import com.badlogic.gdx.audio.Sound;
@@ -62,7 +63,7 @@ public class CollisionSystem {
             float distance = (float) Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
             if (distance < enemy.size + player.size / 2) {
-                player.takeDamage(10);
+                player.takeDamage(Constants.DAMAGE_VALUE);
                 enemy.applyKnockback(distanceX / distance, distanceY / distance);
             }
         }
@@ -83,7 +84,7 @@ public class CollisionSystem {
                 float dy = bullet.y - player.centerY();
                 float distance = (float) Math.sqrt(dx * dx + dy * dy);
                 if (distance < bullet.size + player.size / 2) {
-                    player.takeDamage(10);
+                    player.takeDamage(Constants.DAMAGE_VALUE);
                     bullets.removeIndex(i);
                 }
             }
