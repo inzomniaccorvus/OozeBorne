@@ -1,6 +1,9 @@
 package arena.shooter.entities;
 
+import arena.shooter.core.GameAssets;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
 
@@ -27,5 +30,10 @@ public class SplitterEnemy extends Enemy {
                 enemies.add(new FastEnemy(this.x + offsetY, this.y + offsetY, speed * 1.8f));
             }
         }
+    }
+
+    @Override
+    protected Animation<TextureRegion> getAnimation(GameAssets assets) {
+        return assets.splitterAnim;
     }
 }

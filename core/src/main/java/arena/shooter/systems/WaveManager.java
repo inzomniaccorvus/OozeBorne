@@ -24,7 +24,7 @@ public class WaveManager {
         betweenWaves = true;
         gameWon = false;
         introTimer = 3f;
-        currentWave = 0;
+        currentWave = 9;
         currentEdge = 0;
         spawnIndex = 0;
         edgeChangeTimer = 0;
@@ -76,7 +76,7 @@ public class WaveManager {
                         enemies.add(new BasicEnemy(spawnX, spawnY, wave.speed));
                         break;
                     case "FAST":
-                        enemies.add(new FastEnemy(spawnX, spawnY, wave.speed * 1.8f));
+                        enemies.add(new FastEnemy(spawnX, spawnY, wave.speed * 2f));
                         break;
                     case "TANK":
                         enemies.add(new TankEnemy(spawnX, spawnY, wave.speed * 0.5f));
@@ -136,7 +136,7 @@ public class WaveManager {
             return;
         }
 
-        if (spawnIndex >= waves.get(currentWave).totalCount && enemies.size == 0) {
+        if (spawnIndex >= waves.get(currentWave).totalCount && enemies.size == 0 && currentWave != 9) {
             betweenWaves = true;
             introTimer = 3f;
             spawnIndex = 0;
@@ -217,7 +217,6 @@ public class WaveManager {
     }
 
     public void clear() {
-        waves.clear();
         buildWaves();
         currentWave = 0;
         spawnIndex = 0;
@@ -229,16 +228,16 @@ public class WaveManager {
     }
 
     private void buildWaves() {
-        // Wave setup - I think I should comment for my own sanity maybe later.
-        waves.add(new Wave(6, 0, 0, 0, 0, 2.5f, -1, 80f));
-        waves.add(new Wave(5, 3, 0, 0, 0, 2f, -1, 90f));
-        waves.add(new Wave(5, 4, 0, 0, 0, 1.8f, -1, 95f));
-        waves.add(new Wave(4, 3, 2, 0, 0, 1.8f, -1, 100f));
-        waves.add(new Wave(4, 2, 1, 2, 0, 1.5f, -1, 105f));
-        waves.add(new Wave(3, 2, 2, 3, 0, 1.5f, -1, 110f));
-        waves.add(new Wave(3, 3, 1, 1, 2, 1.3f, -1, 115f));
-        waves.add(new Wave(4, 3, 2, 2, 2, 1.2f, -1, 120f));
-        waves.add(new Wave(3, 5, 1, 2, 3, 1f, -1, 130f));
-        waves.add(new Wave(0, 0, 0, 0, 0, 1f, -1, 140f));
+        waves.clear();
+        waves.add(new Wave(6, 0, 0, 0, 0, 2.5f, -1, 85f));       // wave 1
+        waves.add(new Wave(6, 3, 0, 0, 0, 2f, -1, 95f));          // wave 2
+        waves.add(new Wave(6, 4, 1, 0, 0, 1.8f, -1, 100f));       // wave 3
+        waves.add(new Wave(5, 4, 2, 1, 0, 1.6f, -1, 108f));       // wave 4
+        waves.add(new Wave(5, 4, 2, 2, 1, 1.4f, -1, 115f));       // wave 5
+        waves.add(new Wave(5, 4, 3, 3, 1, 1.3f, -1, 120f));       // wave 6
+        waves.add(new Wave(4, 5, 3, 3, 2, 1.2f, -1, 128f));       // wave 7
+        waves.add(new Wave(5, 5, 3, 4, 2, 1f, -1, 135f));         // wave 8
+        waves.add(new Wave(4, 6, 3, 4, 3, 0.9f, -1, 145f));       // wave 9
+        waves.add(new Wave(0, 0, 0, 0, 0, 1f, -1, 150f));         // wave 10 boss
     }
 }

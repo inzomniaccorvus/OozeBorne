@@ -1,9 +1,11 @@
 package arena.shooter.systems;
 
+import arena.shooter.core.GameAssets;
 import arena.shooter.entities.AmalgamEnemy;
+import arena.shooter.entities.Bullet;
 import arena.shooter.entities.Enemy;
 import arena.shooter.entities.ShooterEnemy;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
 public class EnemyManager {
@@ -19,7 +21,7 @@ public class EnemyManager {
 
         for (Enemy enemy : enemies) {
             enemy.update(delta, playerCenterX, playerCenterY);
-            if(!enemy.knockBacked) {
+            if (!enemy.knockBacked) {
                 enemy.applySeparation(enemies, delta);
             }
 
@@ -34,18 +36,22 @@ public class EnemyManager {
         }
     }
 
-    public void draw(ShapeRenderer shape) {
+
+    public void draw(SpriteBatch batch, GameAssets assets) {
         for (Enemy enemy : enemies) {
-            enemy.draw(shape);
+            enemy.draw(batch, assets);
         }
 
         for (Enemy enemy : enemies) {
-            if (enemy instanceof ShooterEnemy) {
-                ((ShooterEnemy) enemy).drawBullets(shape);
-            }
-
-            if (enemy instanceof AmalgamEnemy) {
-                ((AmalgamEnemy) enemy).drawBullets(shape);
+            Array<Bullet> bullets = null;
+            if (enemy instanceof ShooterEnemy) bullets = ((ShooterEnemy) enemy).enemyBullets;
+            if (enemy instanceof AmalgamEnemy) bullets = ((AmalgamEnemy) enemy).bossBullets;
+            if (bullets != null) {
+                for (Bullet bullet : bullets) {
+                    batch.draw(assets.goopTexture,
+                        bullet.x - bullet.size, bullet.y - bullet.size,
+                        bullet.size * 6, bullet.size * 6);
+                }
             }
         }
     }

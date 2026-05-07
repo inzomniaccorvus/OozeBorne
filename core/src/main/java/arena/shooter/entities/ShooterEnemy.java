@@ -1,7 +1,10 @@
 package arena.shooter.entities;
 
 import arena.shooter.core.Constants;
+import arena.shooter.core.GameAssets;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
@@ -14,7 +17,7 @@ public class ShooterEnemy extends Enemy {
     public ShooterEnemy(float x, float y, float speed) {
         super(x, y, 20f, speed, 3, Color.MAGENTA, 20);
         this.shootTimer = 0;
-        this.shootInterval = 2f;
+        this.shootInterval = 1.5f;
         this.enemyBullets = new Array<Bullet>();
     }
 
@@ -49,5 +52,10 @@ public class ShooterEnemy extends Enemy {
         for (Bullet bullet : enemyBullets) {
             shape.circle(bullet.x, bullet.y, bullet.size);
         }
+    }
+
+    @Override
+    protected Animation<TextureRegion> getAnimation(GameAssets assets) {
+        return assets.shooterAnim;
     }
 }

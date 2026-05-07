@@ -1,11 +1,14 @@
 package arena.shooter.systems;
 
 import arena.shooter.core.Constants;
+import arena.shooter.core.GameAssets;
 import arena.shooter.entities.Drop;
 import arena.shooter.entities.Player;
 import arena.shooter.util.Drawable;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
@@ -91,31 +94,11 @@ public class DropManager implements Drawable {
         }
     }
 
-
-    public void draw(ShapeRenderer shape) {
-        for (int i = drops.size - 1; i >= 0; i--) {
-            Drop drop = drops.get(i);
-            if (drop.type == Drop.Type.SHOTGUN) {
-                shape.setColor(Color.ORANGE);
-            } else if (drop.type == Drop.Type.RAPID) {
-                shape.setColor(Color.GREEN);
-            } else if (drop.type == Drop.Type.BURST) {
-                shape.setColor(Color.PINK);
-            } else if (drop.type == Drop.Type.SPEED) {
-                shape.setColor(Color.CYAN);
-            } else if (drop.type == Drop.Type.FIRERATE) {
-                shape.setColor(Color.YELLOW);
-            } else if (drop.type == Drop.Type.HEAL) {
-                shape.setColor(Color.GREEN);
-            } else if (drop.type == Drop.Type.ARMORBUSTER) {
-                shape.setColor(Color.RED);
-            }
-
-            if (drop.isWeapon()) {
-                shape.circle(drop.x, drop.y, DROP_RENDER_RADIUS);
-            } else {
-                shape.rect(drop.x - POWERUP_RENDER_SIZE / 2, drop.y - POWERUP_RENDER_SIZE / 2, POWERUP_RENDER_SIZE, POWERUP_RENDER_SIZE);
-            }
+    public void draw(SpriteBatch batch, GameAssets assets) {
+        for (Drop drop : drops) {
+            Texture tex = assets.getDropTexture(drop.type);
+            float size = 24f;
+            batch.draw(tex, drop.x - size/2, drop.y - size/2, size*2, size*2);
         }
     }
 

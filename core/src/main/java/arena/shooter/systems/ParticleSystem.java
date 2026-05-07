@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
-public class ParticleSystem implements Drawable {
+public class ParticleSystem {
     private Array<Particle> particles;
     private Array<DamageNumber> damageNumbers;
 
@@ -55,7 +55,6 @@ public class ParticleSystem implements Drawable {
         }
     }
 
-    @Override
     public void draw(ShapeRenderer shape) {
         drawShapes(shape);
     }

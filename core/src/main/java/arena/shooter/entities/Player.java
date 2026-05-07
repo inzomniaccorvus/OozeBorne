@@ -1,15 +1,16 @@
 package arena.shooter.entities;
 
 import arena.shooter.core.Constants;
+import arena.shooter.core.GameAssets;
 import arena.shooter.systems.BulletManager;
 import arena.shooter.util.Damageable;
 import arena.shooter.util.Drawable;
-import arena.shooter.util.Updatable;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Player implements Drawable, Damageable {
     public float x;
@@ -35,12 +36,22 @@ public class Player implements Drawable, Damageable {
         PISTOL, SHOTGUN, RAPID_FIRE, BURST
     }
 
+    public float stateTime;
+
+    public enum Direction {DOWN, UP, LEFT, RIGHT}
+
+    public Direction direction = Direction.DOWN;
+    public boolean isMoving = false;
+
+    public float velX, velY;
+
     public Player(float startX, float startY, float size) {
         this.x = startX;
         this.y = startY;
         this.size = size;
         this.hp = 100;
         this.currentWeapon = WeaponType.PISTOL;
+        this.stateTime = 0f;
     }
 
     public float centerX() {
@@ -52,15 +63,39 @@ public class Player implements Drawable, Damageable {
     }
 
     public void update(float delta, BulletManager bulletManager, float aimDirectionX, float aimDirectionY, Sound shootSound) {
+        stateTime += delta;
+        float prevX = x;
+        float prevY = y;
         float movementSpeed = speedBoostTimer > 0 ? BOOSTED_SPEED : BASE_SPEED;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) y += movementSpeed * delta;
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) y -= movementSpeed * delta;
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) x -= movementSpeed * delta;
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) x += movementSpeed * delta;
+        isMoving = false;
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            x -= movementSpeed * delta;
+            direction = Direction.RIGHT;
+            isMoving = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            x += movementSpeed * delta;
+            direction = Direction.LEFT;
+            isMoving = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            y += movementSpeed * delta;
+            direction = Direction.UP;
+            isMoving = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            y -= movementSpeed * delta;
+            direction = Direction.DOWN;
+            isMoving = true;
+        }
 
-        x = Math.max(0, Math.min(Constants.SCREEN_HEIGHT - size, x));
+
+        x = Math.max(0, Math.min(Constants.SCREEN_WIDTH - size, x));
         y = Math.max(0, Math.min(Constants.SCREEN_HEIGHT - size, y));
+
+        velX = x - prevX;
+        velY = y - prevY;
 
         fireTimer -= delta;
         invincibilityTimer -= delta;
@@ -147,16 +182,39 @@ public class Player implements Drawable, Damageable {
         return hp <= 0;
     }
 
-    public void draw(ShapeRenderer shape) {
-        shape.setColor(damageFlashTimer > 0 ? Color.RED : Color.CYAN);
-        shape.rect(x, y, size, size);
+
+    public void draw(SpriteBatch batch, GameAssets assets) {
+        TextureRegion frame;
+        switch (direction) {
+            case UP:
+                frame = assets.mageUp;
+                break;
+            case LEFT:
+                frame = assets.mageLeft;
+                break;
+            case RIGHT:
+                frame = assets.mageRight;
+                break;
+            default:
+                frame = assets.mageDown;
+                break;
+        }
+
+        float bobSpeed = isMoving ? 4f : 2f;
+        float bobAmount = isMoving ? 4f : 2f;
+        float bob = (float) Math.sin(stateTime * bobSpeed) * bobAmount;
+        float squash = 1f + (float) Math.sin(stateTime * bobSpeed) * 0.05f;
+
+        if (damageFlashTimer > 0) batch.setColor(1f, 0.3f, 0.3f, 1f);
+
+        float drawWidth = size * 3f;
+        float drawHeight = size * 3.75f;
+        batch.draw(frame, x, y + bob, drawWidth, drawHeight * squash);
+        batch.setColor(1f, 1f, 1f, 1f);
     }
 
     private Bullet makeBullet(float dirX, float dirY, float posOffset) {
-        Bullet b = new Bullet(
-            centerX() + dirX * posOffset,
-            centerY() + dirY * posOffset,
-            dirX, dirY);
+        Bullet b = new Bullet(centerX() + dirX * posOffset, centerY() + dirY * posOffset, dirX, dirY);
         b.damage = damageBoostTimer > 0 ? 2 : 1;
         return b;
     }

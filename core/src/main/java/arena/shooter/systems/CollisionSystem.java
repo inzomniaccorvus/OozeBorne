@@ -28,6 +28,8 @@ public class CollisionSystem {
                     if (enemy instanceof AmalgamEnemy && ((AmalgamEnemy) enemy).reflecting) {
                         bullet.dirX *= -1;
                         bullet.dirY *= -1;
+                        bullet.speed *= 1.5f;
+                        bullet.size *= 1.5;
                         ((AmalgamEnemy) enemy).bossBullets.add(bullet);
                         bullets.removeIndex(i);
                         break;

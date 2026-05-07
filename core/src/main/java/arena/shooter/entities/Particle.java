@@ -4,7 +4,7 @@ import arena.shooter.util.Drawable;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Particle implements Drawable {
+public class Particle{
     public float x;
     public float y;
     public float dirX;

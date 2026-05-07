@@ -1,5 +1,6 @@
 package arena.shooter;
 
+import arena.shooter.core.GameAssets;
 import arena.shooter.screens.MainMenuScreen;
 import arena.shooter.systems.ScoreManager;
 import arena.shooter.ui.HUD;
@@ -22,6 +23,7 @@ public class Main extends Game {
 
     public ScoreManager scoreManager;
     public HUD hud;
+    public GameAssets assets;
 
     @Override
     public void create() {
@@ -43,6 +45,9 @@ public class Main extends Game {
 
         hud = new HUD();
 
+        assets = new GameAssets();
+        assets.load();
+
         setScreen(new MainMenuScreen(this));
     }
 
@@ -55,5 +60,6 @@ public class Main extends Game {
         explosionSound.dispose();
         pickupSound.dispose();
         bgMusic.dispose();
+        assets.dispose();
     }
 }

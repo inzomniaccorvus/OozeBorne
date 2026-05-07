@@ -3,6 +3,7 @@ package arena.shooter.screens;
 
 import arena.shooter.Main;
 import arena.shooter.core.Constants;
+import arena.shooter.core.GameAssets;
 import arena.shooter.entities.*;
 import arena.shooter.systems.*;
 import arena.shooter.ui.HUD;
@@ -41,9 +42,12 @@ public class GameScreen extends ScreenAdapter {
     private float shakeOffsetX;
     private float shakeOffsetY;
 
+    private GameAssets assets;
+
 
     public GameScreen(Main game) {
         this.game = game;
+        this.assets = game.assets;
     }
 
     @Override
@@ -142,11 +146,23 @@ public class GameScreen extends ScreenAdapter {
 
         ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1f);
 
+        viewport.apply();
+        game.batch.setProjectionMatrix(camera.combined);
+        game.batch.begin();
+
+        game.batch.draw(assets.getMapTexture(waveManager.currentWave),
+            0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+
+        player.draw(game.batch, assets);
+        enemyManager.draw(game.batch, assets);
+        bulletManager.draw(game.batch, assets);
+        dropManager.draw(game.batch, assets);
+        particleSystem.drawText(game.batch, game.font);
+
+        game.batch.end();
+
+        shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        player.draw(shapeRenderer);
-        bulletManager.draw(shapeRenderer);
-        enemyManager.draw(shapeRenderer);
-        dropManager.draw(shapeRenderer);
         particleSystem.drawShapes(shapeRenderer);
         shapeRenderer.end();
 
@@ -163,7 +179,6 @@ public class GameScreen extends ScreenAdapter {
 
         game.batch.setProjectionMatrix(hudCamera.combined);
         game.batch.begin();
-        particleSystem.drawText(game.batch, game.font);
         hud.drawGameInfo(game.batch, game.font, player, score, survivalTime);
         game.batch.end();
     }

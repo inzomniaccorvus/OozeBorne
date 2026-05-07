@@ -1,9 +1,13 @@
 package arena.shooter.entities;
 
+import arena.shooter.core.GameAssets;
 import arena.shooter.util.Damageable;
 import arena.shooter.util.Drawable;
 import arena.shooter.util.Updatable;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -22,6 +26,8 @@ public class Enemy implements Drawable, Damageable {
     public float knockBackTimer;
     private float knockBackVelocityDecay = 0.95f;
 
+    public float stateTime;
+
     public Enemy(float x, float y, float size, float speed, int hp, Color color, int scoreValue) {
         this.x = x;
         this.y = y;
@@ -34,9 +40,11 @@ public class Enemy implements Drawable, Damageable {
         this.knockBackVelocityX = 0;
         this.knockBackVelocityY = 0;
         this.knockBackTimer = 0f;
+        this.stateTime = 0f;
     }
 
     public void update(float delta, float targetX, float targetY) {
+        stateTime += delta;
         if (knockBacked) {
             x += knockBackVelocityX * delta;
             y += knockBackVelocityY * delta;
@@ -59,9 +67,14 @@ public class Enemy implements Drawable, Damageable {
         y += dy * speed * delta;
     }
 
-    public void draw(ShapeRenderer shape) {
-        shape.setColor(color);
-        shape.circle(x, y, size);
+    public void draw(SpriteBatch batch, GameAssets assets) {
+        TextureRegion frame = getAnimation(assets).getKeyFrame(stateTime);
+        float drawWidth = size * 4.5f;
+        float drawHeight = size * 4.5f;
+        batch.draw(frame, x - drawWidth/2, y - drawHeight/2, drawWidth, drawHeight);    }
+
+    protected Animation<TextureRegion> getAnimation(GameAssets assets) {
+        return assets.basicAnim;
     }
 
     public boolean isDead() {

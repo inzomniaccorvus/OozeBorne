@@ -1,6 +1,7 @@
 package arena.shooter.util;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import arena.shooter.core.GameAssets;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public interface Drawable {
-    void draw(ShapeRenderer shape);
+    void draw(SpriteBatch batch, GameAssets assets);
 }

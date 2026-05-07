@@ -1,7 +1,10 @@
 package arena.shooter.entities;
 
 import arena.shooter.core.Constants;
+import arena.shooter.core.GameAssets;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
@@ -19,7 +22,7 @@ public class AmalgamEnemy extends Enemy {
     public float dashTimer;
     private float dashInterval = 4f;
     public float dashDuration;
-    public float speedMultiplier = 4f;
+    public float speedMultiplier = 3f;
 
     public float shootTimer;
     public float shootInterval = 2f;
@@ -100,7 +103,7 @@ public class AmalgamEnemy extends Enemy {
             phase = 2;
             shootInterval = 1.5f;
             dashInterval = 2.5f;
-            speedMultiplier = 3f;
+            speedMultiplier = 4f;
             reflectCooldown = 5f;
         }
         hitWindowTimer += delta;
@@ -194,7 +197,7 @@ public class AmalgamEnemy extends Enemy {
     }
 
     public void radial() {
-        float bulletCount = 8;
+        float bulletCount = 15;
         float baseAngle = 0;
         for (int i = 0; i < bulletCount; i++) {
             float offset = (float) ((2 * Math.PI / bulletCount) * i);
@@ -205,7 +208,7 @@ public class AmalgamEnemy extends Enemy {
     }
 
     public void spiral() {
-        float bulletCount = 8;
+        float bulletCount = 15;
         float baseAngle = spiralAngle;
         for (int i = 0; i < bulletCount; i++) {
             float offset = (float) ((2 * Math.PI / bulletCount) * i);
@@ -213,6 +216,11 @@ public class AmalgamEnemy extends Enemy {
             Bullet bullet = new Bullet(x, y, (float) Math.cos(spreadAngle), (float) Math.sin(spreadAngle));
             bossBullets.add(bullet);
         }
+    }
+
+    @Override
+    protected Animation<TextureRegion> getAnimation(GameAssets assets) {
+        return assets.bossAnim;
     }
 }
 
