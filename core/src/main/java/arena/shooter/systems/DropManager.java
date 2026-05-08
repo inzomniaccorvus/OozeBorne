@@ -23,7 +23,6 @@ public class DropManager implements Drawable {
     private static final float POWERUP_INTERVAL = 8f;
     private static final float WEAPON_DROP_LIFETIME = 10f;
     private static final float SPAWN_PADDING = 50f;
-    private static final float DROP_PICKUP_RADIUS = 20f;
 
     public DropManager() {
         drops = new Array<>();
@@ -69,13 +68,13 @@ public class DropManager implements Drawable {
                     continue;
                 }
             }
-            float playerLeft = player.x;
+            float playerLeft = player.x + player.size * 0.5f;
             float playerRight = player.x + player.size * 2.5f;
-            float playerBottom = player.y;
-            float playerTop = player.y + player.size * 3.25f;
-            float dropSize = 24f;
-
-            if (drop.x + dropSize > playerLeft && drop.x - dropSize < playerRight && drop.y + dropSize > playerBottom && drop.y - dropSize < playerTop) {
+            float playerBottom = player.y + player.size * 0.3f;
+            float playerTop = player.y + player.size * 3.0f;
+            float dropSize = 14f;
+            if (drop.x + dropSize > playerLeft && drop.x - dropSize < playerRight &&
+                drop.y + dropSize > playerBottom && drop.y - dropSize < playerTop) {
                 if (drop.isWeapon()) {
                     Player.WeaponType weaponType;
                     if (drop.type == Drop.Type.SHOTGUN) weaponType = Player.WeaponType.SHOTGUN;
@@ -107,5 +106,11 @@ public class DropManager implements Drawable {
         drops.clear();
         weaponDropTimer = 0f;
         powerupTimer = 0f;
+    }
+
+    private float distance(float x1, float y1, float x2, float y2) {
+        float dx = x2 - x1;
+        float dy = y2 - y1;
+        return (float) Math.sqrt(dx * dx + dy * dy);
     }
 }

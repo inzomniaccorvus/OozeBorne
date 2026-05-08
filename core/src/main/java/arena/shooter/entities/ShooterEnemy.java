@@ -19,7 +19,8 @@ public class ShooterEnemy extends Enemy {
         this.shootTimer = 0;
         this.shootInterval = 1.5f;
         this.enemyBullets = new Array<Bullet>();
-        collisionRadius = 55f;
+        collisionRadius = 48f;
+        bodyRadius = 32f;
     }
 
     @Override

@@ -57,7 +57,8 @@ public class AmalgamEnemy extends Enemy {
         shootTimer = 0f;
         spiralAngle = 0f;
         dashDuration = 0f;
-        collisionRadius = 120f;
+        collisionRadius = 135f;
+        bodyRadius = 115f;
         bossBullets = new Array<>();
     }
 
@@ -81,7 +82,8 @@ public class AmalgamEnemy extends Enemy {
         spiralAngle = 0f;
         dashDuration = 0f;
         reflectCooldown = 12f;
-        collisionRadius = 75f;
+        collisionRadius = 79f;
+        bodyRadius = 60f;
         bossBullets = new Array<>();
     }
 

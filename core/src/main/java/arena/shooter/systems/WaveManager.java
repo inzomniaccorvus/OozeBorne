@@ -230,7 +230,7 @@ public class WaveManager {
 
     private void buildWaves() {
         waves.clear();
-        waves.add(new Wave(6, 0, 0, 0, 0, 2.5f, -1, 85f));       // wave 1
+        waves.add(new Wave(0, 0, 0, 0, 1, 2.5f, -1, 85f));       // wave 1
         waves.add(new Wave(6, 3, 0, 0, 0, 2f, -1, 95f));          // wave 2
         waves.add(new Wave(6, 4, 1, 0, 0, 1.8f, -1, 100f));       // wave 3
         waves.add(new Wave(5, 4, 2, 1, 0, 1.6f, -1, 108f));       // wave 4

@@ -16,6 +16,7 @@ public class Enemy implements Drawable, Damageable {
     public float x, y;
     public float size;
     public float collisionRadius;
+    public float bodyRadius;
     public float speed;
     public int hp;
     public Color color;
@@ -28,6 +29,7 @@ public class Enemy implements Drawable, Damageable {
     private float knockBackVelocityDecay = 0.95f;
 
     public float stateTime;
+
 
     public Enemy(float x, float y, float size, float speed, int hp, Color color, int scoreValue) {
         this.x = x;

@@ -13,7 +13,9 @@ public class SplitterEnemy extends Enemy {
     public SplitterEnemy(float x, float y, float speed) {
         super(x, y, 35f, speed, 5, Color.CYAN, 30);
         numberOfSplits = 3;
-        collisionRadius = 75f;
+        collisionRadius = 83f;
+        bodyRadius = 60f;
+
     }
 
     public void split(Array<Enemy> enemies) {

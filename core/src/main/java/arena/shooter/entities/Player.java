@@ -8,7 +8,6 @@ import arena.shooter.util.Drawable;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -44,8 +43,6 @@ public class Player implements Drawable, Damageable {
     public boolean isMoving = false;
 
     public float velX, velY;
-
-    public float hitRadius = 25f;
 
     public Player(float startX, float startY, float size) {
         this.x = startX;
