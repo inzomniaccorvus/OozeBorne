@@ -42,11 +42,7 @@ public class BulletManager implements Drawable {
         float rotation = 0;
         for (Bullet bullet : bullets) {
             rotation += 5f;
-            batch.draw(new TextureRegion(assets.fireballTexture),
-                bullet.x - bullet.size, bullet.y - bullet.size,
-                bullet.size, bullet.size,
-                bullet.size * 6, bullet.size * 6,
-                1f, 1f, rotation);
+            batch.draw(assets.fireballTextureRegion, bullet.x - bullet.size, bullet.y - bullet.size, bullet.size, bullet.size, bullet.size * 6, bullet.size * 6, 1f, 1f, rotation);
         }
     }
 

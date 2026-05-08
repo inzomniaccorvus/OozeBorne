@@ -13,6 +13,7 @@ public class SplitterEnemy extends Enemy {
     public SplitterEnemy(float x, float y, float speed) {
         super(x, y, 35f, speed, 5, Color.CYAN, 30);
         numberOfSplits = 3;
+        collisionRadius = 75f;
     }
 
     public void split(Array<Enemy> enemies) {
@@ -27,7 +28,7 @@ public class SplitterEnemy extends Enemy {
             if (roll < 0.5f) {
                 enemies.add(new BasicEnemy(this.x + offsetX, this.y + offsetY, speed));
             } else {
-                enemies.add(new FastEnemy(this.x + offsetY, this.y + offsetY, speed * 1.8f));
+                enemies.add(new FastEnemy(this.x + offsetX, this.y + offsetY, speed * 1.8f));
             }
         }
     }

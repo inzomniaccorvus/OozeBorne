@@ -45,6 +45,8 @@ public class Player implements Drawable, Damageable {
 
     public float velX, velY;
 
+    public float hitRadius = 25f;
+
     public Player(float startX, float startY, float size) {
         this.x = startX;
         this.y = startY;
@@ -55,11 +57,11 @@ public class Player implements Drawable, Damageable {
     }
 
     public float centerX() {
-        return x + size / 2;
+        return x + (size * 3f) / 2;
     }
 
     public float centerY() {
-        return y + size / 2;
+        return y + (size * 3.75f) / 2;
     }
 
     public void update(float delta, BulletManager bulletManager, float aimDirectionX, float aimDirectionY, Sound shootSound) {
@@ -71,12 +73,12 @@ public class Player implements Drawable, Damageable {
         isMoving = false;
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             x -= movementSpeed * delta;
-            direction = Direction.RIGHT;
+            direction = Direction.LEFT;
             isMoving = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             x += movementSpeed * delta;
-            direction = Direction.LEFT;
+            direction = Direction.RIGHT;
             isMoving = true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {

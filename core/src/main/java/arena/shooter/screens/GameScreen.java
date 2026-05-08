@@ -9,6 +9,7 @@ import arena.shooter.systems.*;
 import arena.shooter.ui.HUD;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -116,7 +117,7 @@ public class GameScreen extends ScreenAdapter {
         particleSystem.update(delta);
         dropManager.update(delta, player, game.pickupSound);
 
-        score += collisionSystem.checkBulletEnemyCollisions(bulletManager, enemyManager, particleSystem, game.hitSound, game.explosionSound);
+        score += collisionSystem.checkBulletEnemyCollisions(bulletManager, enemyManager, particleSystem, game.hitSound, game.explosionSound, player);
         collisionSystem.checkPlayerEnemyCollisions(player, enemyManager);
         collisionSystem.checkEnemyBulletPlayerCollisions(player, enemyManager);
 
@@ -167,7 +168,11 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(1f, 1f, 1f, 1f);
+        shapeRenderer.setColor(Color.RED);
+        float crossSize = 20f;
+        shapeRenderer.line(mouseX - crossSize, mouseY, mouseX + crossSize, mouseY);
+        shapeRenderer.line(mouseX, mouseY - crossSize, mouseX, mouseY + crossSize);
+        shapeRenderer.circle(mouseX, mouseY, 6f);
         shapeRenderer.line(player.centerX(), player.centerY(), mouseX, mouseY);
         shapeRenderer.end();
 

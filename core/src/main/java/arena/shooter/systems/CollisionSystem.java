@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class CollisionSystem {
 
-    public int checkBulletEnemyCollisions(BulletManager bulletManager, EnemyManager enemyManager, ParticleSystem particleSystem, Sound hitSound, Sound explosionSound) {
+    public int checkBulletEnemyCollisions(BulletManager bulletManager, EnemyManager enemyManager, ParticleSystem particleSystem, Sound hitSound, Sound explosionSound, Player player) {
         Array<Bullet> bullets = bulletManager.bullets;
         Array<Enemy> enemies = enemyManager.enemies;
 
@@ -24,12 +24,24 @@ public class CollisionSystem {
                 float distanceY = enemy.y - bullet.y;
                 float distance = (float) Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-                if (distance < bullet.size + enemy.size) {
+                if (distance < bullet.size + enemy.collisionRadius) {
                     if (enemy instanceof AmalgamEnemy && ((AmalgamEnemy) enemy).reflecting) {
-                        bullet.dirX *= -1;
-                        bullet.dirY *= -1;
-                        bullet.speed *= 1.5f;
-                        bullet.size *= 1.5;
+                        float toPlayerX = enemy.x - player.x;
+                        float toPlayerY = enemy.y - player.y;
+                        float toPlayerDist = (float) Math.sqrt(toPlayerX * toPlayerX + toPlayerY * toPlayerY);
+                        float leadFactor = 0.6f;
+                        float predictTime = Math.min(toPlayerDist / bullet.speed, 0.5f);
+                        float futurePlayerX = player.x + player.velX * predictTime * leadFactor;
+                        float futurePlayerY = player.y + player.velY * predictTime * leadFactor;
+                        float dx = futurePlayerX - enemy.x;
+                        float dy = futurePlayerY - enemy.y;
+                        float len = (float) Math.sqrt(dx * dx + dy * dy);
+                        dx /= len;
+                        dy /= len;
+                        bullet.dirX = dx;
+                        bullet.dirY = dy;
+                        bullet.speed *= 1.25f;
+                        bullet.size *= 1.5f;
                         ((AmalgamEnemy) enemy).bossBullets.add(bullet);
                         bullets.removeIndex(i);
                         break;
@@ -60,13 +72,14 @@ public class CollisionSystem {
         for (int i = enemyManager.enemies.size - 1; i >= 0; i--) {
             Enemy enemy = enemyManager.enemies.get(i);
 
-            float distanceX = enemy.x - player.centerX();
-            float distanceY = enemy.y - player.centerY();
-            float distance = (float) Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-            if (distance < enemy.size + player.size / 2) {
+            float dx = enemy.x - (player.x + player.size * Constants.PLAYER_COLLISION_X);
+            float dy = enemy.y - (player.y + player.size * Constants.PLAYER_COLLISION_Y);
+            float rx = Constants.PLAYER_HIT_RX;
+            float ry = Constants.PLAYER_HIT_RY;
+            if ((dx * dx) / (rx * rx) + (dy * dy) / (ry * ry) < 1.0f) {
                 player.takeDamage(Constants.DAMAGE_VALUE);
-                enemy.applyKnockback(distanceX / distance, distanceY / distance);
+                float distance = (float) Math.sqrt(dx * dx + dy * dy);
+                enemy.applyKnockback(dx / distance, dy / distance);
             }
         }
     }
@@ -82,10 +95,11 @@ public class CollisionSystem {
             }
             for (int i = bullets.size - 1; i >= 0; i--) {
                 Bullet bullet = bullets.get(i);
-                float dx = bullet.x - player.centerX();
-                float dy = bullet.y - player.centerY();
-                float distance = (float) Math.sqrt(dx * dx + dy * dy);
-                if (distance < bullet.size + player.size / 2) {
+                float dx = bullet.x - (player.x + player.size * Constants.PLAYER_COLLISION_X);
+                float dy = bullet.y - (player.y + player.size * Constants.PLAYER_COLLISION_Y);
+                float rx = Constants.PLAYER_HIT_RX;
+                float ry = Constants.PLAYER_HIT_RY;
+                if ((dx * dx) / (rx * rx) + (dy * dy) / (ry * ry) < 1.0f) {
                     player.takeDamage(Constants.DAMAGE_VALUE);
                     bullets.removeIndex(i);
                 }

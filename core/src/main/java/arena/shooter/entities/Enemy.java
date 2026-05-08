@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class Enemy implements Drawable, Damageable {
     public float x, y;
     public float size;
+    public float collisionRadius;
     public float speed;
     public int hp;
     public Color color;
@@ -71,7 +72,8 @@ public class Enemy implements Drawable, Damageable {
         TextureRegion frame = getAnimation(assets).getKeyFrame(stateTime);
         float drawWidth = size * 4.5f;
         float drawHeight = size * 4.5f;
-        batch.draw(frame, x - drawWidth/2, y - drawHeight/2, drawWidth, drawHeight);    }
+        batch.draw(frame, x - drawWidth / 2, y - drawHeight / 2, drawWidth, drawHeight);
+    }
 
     protected Animation<TextureRegion> getAnimation(GameAssets assets) {
         return assets.basicAnim;

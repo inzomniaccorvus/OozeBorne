@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class BasicEnemy extends Enemy {
     public BasicEnemy(float x, float y, float speed) {
         super(x, y, 20f, speed, 3, Color.RED, 10);
+        collisionRadius = 55f;
     }
 
     @Override

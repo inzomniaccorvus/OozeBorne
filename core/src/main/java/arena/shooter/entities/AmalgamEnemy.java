@@ -57,6 +57,7 @@ public class AmalgamEnemy extends Enemy {
         shootTimer = 0f;
         spiralAngle = 0f;
         dashDuration = 0f;
+        collisionRadius = 120f;
         bossBullets = new Array<>();
     }
 
@@ -80,6 +81,7 @@ public class AmalgamEnemy extends Enemy {
         spiralAngle = 0f;
         dashDuration = 0f;
         reflectCooldown = 12f;
+        collisionRadius = 75f;
         bossBullets = new Array<>();
     }
 
@@ -103,7 +105,7 @@ public class AmalgamEnemy extends Enemy {
             phase = 2;
             shootInterval = 1.5f;
             dashInterval = 2.5f;
-            speedMultiplier = 4f;
+            speedMultiplier = 3f;
             reflectCooldown = 5f;
         }
         hitWindowTimer += delta;
@@ -197,7 +199,7 @@ public class AmalgamEnemy extends Enemy {
     }
 
     public void radial() {
-        float bulletCount = 15;
+        float bulletCount = 12;
         float baseAngle = 0;
         for (int i = 0; i < bulletCount; i++) {
             float offset = (float) ((2 * Math.PI / bulletCount) * i);
@@ -208,7 +210,7 @@ public class AmalgamEnemy extends Enemy {
     }
 
     public void spiral() {
-        float bulletCount = 15;
+        float bulletCount = 12;
         float baseAngle = spiralAngle;
         for (int i = 0; i < bulletCount; i++) {
             float offset = (float) ((2 * Math.PI / bulletCount) * i);

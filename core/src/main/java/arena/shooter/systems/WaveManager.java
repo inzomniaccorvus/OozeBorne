@@ -132,11 +132,19 @@ public class WaveManager {
     }
 
     public void update(Array<Enemy> enemies, float delta) {
-        if (betweenWaves) {
+        if (betweenWaves) return;
+
+        if (currentWave == 9) {
+            spawnTimer += delta;
+            edgeChangeTimer += delta;
+            updateWave10(waves.get(currentWave), enemies);
+            if (bossSpawned && enemies.size == 0) {
+                gameWon = true;
+            }
             return;
         }
 
-        if (spawnIndex >= waves.get(currentWave).totalCount && enemies.size == 0 && currentWave != 9) {
+        if (spawnIndex >= waves.get(currentWave).totalCount && enemies.size == 0) {
             betweenWaves = true;
             introTimer = 3f;
             spawnIndex = 0;
@@ -148,18 +156,11 @@ public class WaveManager {
             else if (currentWave < 6) currentMap = 2;
             else if (currentWave < 8) currentMap = 3;
             else currentMap = 4;
-            if (currentWave >= waves.size) {
-                gameWon = true;
-                return;
-            }
             return;
         }
+
         spawnTimer += delta;
         edgeChangeTimer += delta;
-        if (currentWave == 9) {
-            updateWave10(waves.get(currentWave), enemies);
-            return;
-        }
         spawnWave(waves.get(currentWave), enemies);
     }
 
@@ -199,10 +200,10 @@ public class WaveManager {
                     ((AmalgamEnemy) enemy).shouldSplit = false;
                     float offsetX = (float) (Math.random() * 40f) - 20f;
                     float offsetY = (float) (Math.random() * 40f) - 20f;
-                    enemies.add(new AmalgamEnemy(enemy.x + offsetX, enemy.y + offsetY, wave.speed, true));
+                    enemies.add(new AmalgamEnemy(enemy.x + offsetX, enemy.y + offsetY, wave.speed * 0.5f, true));
                     offsetX = (float) (Math.random() * 40f) - 20f;
                     offsetY = (float) (Math.random() * 40f) - 20f;
-                    enemies.add(new AmalgamEnemy(enemy.x + offsetX, enemy.y + offsetY, wave.speed, true));
+                    enemies.add(new AmalgamEnemy(enemy.x + offsetX, enemy.y + offsetY, wave.speed * 0.5f, true));
                     enemies.removeIndex(i);
                 }
             }

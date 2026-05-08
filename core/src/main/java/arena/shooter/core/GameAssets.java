@@ -17,6 +17,7 @@ public class GameAssets {
     public Animation<TextureRegion> shooterAnim, splitterAnim, bossAnim;
 
     public Texture fireballTexture, goopTexture;
+    public TextureRegion fireballTextureRegion;
 
     public Texture dropShotgun, dropRapid, dropBurst;
     public Texture dropHeal, dropSpeed, dropFirerate, dropArmorbuster;
@@ -36,8 +37,8 @@ public class GameAssets {
         mageTexture = new Texture("mage.png");
         mageDown = new TextureRegion(mageTexture, 0, 0, 516, 512);
         mageUp = new TextureRegion(mageTexture, 516, 0, 516, 512);
-        mageLeft = new TextureRegion(mageTexture, 1032, 0, 516, 512);
-        mageRight = new TextureRegion(mageTexture, 1548, 0, 516, 512);
+        mageRight = new TextureRegion(mageTexture, 1032, 0, 516, 512);
+        mageLeft = new TextureRegion(mageTexture, 1548, 0, 516, 512);
 
         basicTexture = new Texture("slime_basic.png");
         fastTexture = new Texture("slime_fast.png");
@@ -54,6 +55,7 @@ public class GameAssets {
         bossAnim = makeAnim(bossTexture, SLIME_FRAME_W, SLIME_FRAME_H);
 
         fireballTexture = new Texture("fireball.png");
+        fireballTextureRegion = new TextureRegion(fireballTexture);
         goopTexture = new Texture("goop.png");
 
         dropShotgun = new Texture("drop_shotgun.png");

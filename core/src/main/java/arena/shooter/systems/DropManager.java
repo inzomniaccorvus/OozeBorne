@@ -23,9 +23,7 @@ public class DropManager implements Drawable {
     private static final float POWERUP_INTERVAL = 8f;
     private static final float WEAPON_DROP_LIFETIME = 10f;
     private static final float SPAWN_PADDING = 50f;
-    private static final float DROP_PICKUP_RADIUS = 30f;
-    private static final float DROP_RENDER_RADIUS = 12f;
-    private static final float POWERUP_RENDER_SIZE = 20f;
+    private static final float DROP_PICKUP_RADIUS = 20f;
 
     public DropManager() {
         drops = new Array<>();
@@ -33,7 +31,7 @@ public class DropManager implements Drawable {
 
 
     private void spawnWeaponDrop() {
-        float spawnX = SPAWN_PADDING + (float) (Math.random() * (Constants.SCREEN_HEIGHT - SPAWN_PADDING * 2));
+        float spawnX = SPAWN_PADDING + (float) (Math.random() * (Constants.SCREEN_WIDTH - SPAWN_PADDING * 2));
         float spawnY = SPAWN_PADDING + (float) (Math.random() * (Constants.SCREEN_HEIGHT - SPAWN_PADDING * 2));
         Drop.Type[] weaponTypes = {Drop.Type.SHOTGUN, Drop.Type.RAPID, Drop.Type.BURST};
         Drop.Type type = weaponTypes[(int) (Math.random() * weaponTypes.length)];
@@ -41,8 +39,8 @@ public class DropManager implements Drawable {
     }
 
     private void spawnPowerup() {
-        float spawnX = SPAWN_PADDING + (float) (Math.random() * (Constants.SCREEN_HEIGHT - SPAWN_PADDING * 2));
-        float spawnY = SPAWN_PADDING + (float) (Math.random() * (Constants.SCREEN_WIDTH - SPAWN_PADDING * 2));
+        float spawnX = SPAWN_PADDING + (float) (Math.random() * (Constants.SCREEN_WIDTH - SPAWN_PADDING * 2));
+        float spawnY = SPAWN_PADDING + (float) (Math.random() * (Constants.SCREEN_HEIGHT - SPAWN_PADDING * 2));
         Drop.Type[] powerupTypes = {Drop.Type.HEAL, Drop.Type.SPEED, Drop.Type.FIRERATE, Drop.Type.ARMORBUSTER};
         Drop.Type type = powerupTypes[(int) (Math.random() * powerupTypes.length)];
         drops.add(new Drop(spawnX, spawnY, -1f, type)); //powerup drops don't disappear
@@ -71,10 +69,13 @@ public class DropManager implements Drawable {
                     continue;
                 }
             }
-            float distanceX = drop.x - player.centerX();
-            float distanceY = drop.y - player.centerY();
-            float distance = (float) Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-            if (distance < DROP_PICKUP_RADIUS) {
+            float playerLeft = player.x;
+            float playerRight = player.x + player.size * 2.5f;
+            float playerBottom = player.y;
+            float playerTop = player.y + player.size * 3.25f;
+            float dropSize = 24f;
+
+            if (drop.x + dropSize > playerLeft && drop.x - dropSize < playerRight && drop.y + dropSize > playerBottom && drop.y - dropSize < playerTop) {
                 if (drop.isWeapon()) {
                     Player.WeaponType weaponType;
                     if (drop.type == Drop.Type.SHOTGUN) weaponType = Player.WeaponType.SHOTGUN;
@@ -98,7 +99,7 @@ public class DropManager implements Drawable {
         for (Drop drop : drops) {
             Texture tex = assets.getDropTexture(drop.type);
             float size = 24f;
-            batch.draw(tex, drop.x - size/2, drop.y - size/2, size*2, size*2);
+            batch.draw(tex, drop.x - size / 2, drop.y - size / 2, size * 2, size * 2);
         }
     }
 

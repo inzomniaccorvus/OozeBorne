@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class TankEnemy extends Enemy {
     public TankEnemy(float x, float y, float speed) {
         super(x, y, 35f, speed, 10, Color.PURPLE, 30);
+        collisionRadius = 80f;
     }
     @Override
     protected Animation<TextureRegion> getAnimation(GameAssets assets) {
