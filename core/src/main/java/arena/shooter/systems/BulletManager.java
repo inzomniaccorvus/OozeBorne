@@ -4,10 +4,7 @@ import arena.shooter.core.Constants;
 import arena.shooter.core.GameAssets;
 import arena.shooter.entities.Bullet;
 import arena.shooter.util.Drawable;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
 public class BulletManager implements Drawable {
@@ -31,18 +28,10 @@ public class BulletManager implements Drawable {
         }
     }
 
-//    public void draw(ShapeRenderer shape) {
-//        shape.setColor(Color.YELLOW);
-//        for (Bullet bullet : bullets) {
-//            shape.circle(bullet.x, bullet.y, bullet.size);
-//        }
-//    }
 
     public void draw(SpriteBatch batch, GameAssets assets) {
-        float rotation = 0;
         for (Bullet bullet : bullets) {
-            rotation += 5f;
-            batch.draw(assets.fireballTextureRegion, bullet.x - bullet.size, bullet.y - bullet.size, bullet.size, bullet.size, bullet.size * 6, bullet.size * 6, 1f, 1f, rotation);
+            batch.draw(assets.fireballTextureRegion, bullet.x - bullet.size, bullet.y - bullet.size, bullet.size, bullet.size, bullet.size * 6, bullet.size * 6, 1f, 1f, bullet.rotation);
         }
     }
 

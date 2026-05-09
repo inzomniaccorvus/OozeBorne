@@ -102,7 +102,7 @@ public class HUD {
 
         float scoreY = SCREEN_HEIGHT / 2f - 220f;
         if (scores == null || scores.size == 0) {
-            fonts.hudSmall.setColor(0.35f, 0.33f, 0.48f, 1f);
+            fonts.hudSmall.setColor(GOLD);
             drawCentered(batch, fonts.hudSmall, "No records yet.", scoreY);
         } else {
             for (int i = 0; i < Math.min(scores.size, 5); i++) {
@@ -118,13 +118,6 @@ public class HUD {
 
     public void drawGameWin(SpriteBatch batch, FontManager fonts, int score, float survivalTime) {
         drawEndScreen(batch, fonts, "The Incursion is Contained", "Order restored. For now.", score, survivalTime);
-    }
-
-    public void drawBossIntro(SpriteBatch batch, FontManager fonts, float alpha) {
-        fonts.titleFont.setColor(GOLD.r, GOLD.g, GOLD.b, alpha);
-        drawCentered(batch, fonts.titleFont, "OOZEBORNE", SCREEN_HEIGHT / 2f + 40);
-        fonts.bodyItalic.setColor(0.90f, 0.85f, 1f, alpha);
-        drawCentered(batch, fonts.bodyItalic, FLAVOR_TEXTS[9], SCREEN_HEIGHT / 2f - 14);
     }
 
     public void drawPause(SpriteBatch batch, FontManager fonts) {

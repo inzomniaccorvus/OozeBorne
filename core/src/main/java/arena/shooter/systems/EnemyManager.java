@@ -48,9 +48,8 @@ public class EnemyManager {
             if (enemy instanceof AmalgamEnemy) bullets = ((AmalgamEnemy) enemy).bossBullets;
             if (bullets != null) {
                 for (Bullet bullet : bullets) {
-                    batch.draw(assets.goopTexture,
-                        bullet.x - bullet.size, bullet.y - bullet.size,
-                        bullet.size * 6, bullet.size * 6);
+                    float wobble = 1f + 0.15f * (float) Math.sin(bullet.rotation * 0.05f);
+                    batch.draw(assets.goopTexture, bullet.x - bullet.size, bullet.y - bullet.size, bullet.size * 6 * wobble, bullet.size * 6 * wobble);
                 }
             }
         }

@@ -6,6 +6,7 @@ public class Bullet {
     public float speed = 500f;
     public float size = 6f;
     public int damage = 1;
+    public float rotation;
 
     public Bullet(float x, float y, float dirX, float dirY) {
         this.x = x;
@@ -17,6 +18,7 @@ public class Bullet {
     public void update(float delta) {
         x += dirX * speed * delta;
         y += dirY * speed * delta;
+        rotation += 180f * delta;
     }
 
     public boolean isOffScreen(int screenWidth, int screenHeight) {

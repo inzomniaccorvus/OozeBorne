@@ -91,7 +91,7 @@ public class GameScreen extends ScreenAdapter {
 
         if (currentMap >= 4) {
             game.playMusic(game.bossMusic);
-        } else if (currentMap >= 3) {
+        } else if (currentMap == 3) {
             game.playMusic(game.map3Music);
         } else if (currentMap >= 1) {
             game.playMusic(game.map2Music);
@@ -117,8 +117,7 @@ public class GameScreen extends ScreenAdapter {
             hudViewport.apply();
             game.batch.setProjectionMatrix(hudCamera.combined);
             game.batch.begin();
-            hud.drawWaveIntro(game.batch, game.fonts, waveManager.currentWave,
-                waveManager.introTimer > 1f ? 1f : waveManager.introTimer);
+            hud.drawWaveIntro(game.batch, game.fonts, waveManager.currentWave, Math.min(waveManager.introTimer, 1f));
             game.batch.end();
             return;
         }
