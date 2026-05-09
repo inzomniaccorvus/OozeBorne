@@ -51,12 +51,12 @@ public class CollisionSystem {
                         break;
                     }
                     enemy.takeDamage(bullet.damage);
-                    hitSound.play(0.6f);
+                    hitSound.play(0.3f);
                     particleSystem.spawnDamageNumber(enemy.x, enemy.y, bullet.damage);
                     bulletManager.bulletsHit++;
                     bullets.removeIndex(i);
                     if (enemy.isDead()) {
-                        explosionSound.play(0.8f);
+                        explosionSound.play(0.35f);
                         particleSystem.spawnDeathParticles(enemy.x, enemy.y, enemy.color);
                         if (enemy instanceof SplitterEnemy) {
                             ((SplitterEnemy) enemy).split(enemies);

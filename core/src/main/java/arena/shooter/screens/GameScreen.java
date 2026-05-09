@@ -1,4 +1,3 @@
-
 package arena.shooter.screens;
 
 import arena.shooter.Main;
@@ -38,13 +37,12 @@ public class GameScreen extends ScreenAdapter {
 
     private int score;
     private float survivalTime;
-
     private float shakeDuration;
     private float shakeOffsetX;
     private float shakeOffsetY;
+    private int trackedMap;
 
     private GameAssets assets;
-
 
     public GameScreen(Main game) {
         this.game = game;
@@ -78,26 +76,53 @@ public class GameScreen extends ScreenAdapter {
         score = 0;
         survivalTime = 0f;
         shakeDuration = 0f;
+        trackedMap = -1;
+
+        game.playMusic(game.map1Music);
+        trackedMap = 0;
+    }
+
+    private void updateMusic() {
+        int musicZone;
+        int wave = waveManager.currentWave;
+
+        if (wave == 9) musicZone = 3;
+        else if (wave >= 7) musicZone = 2;
+        else if (wave >= 3) musicZone = 1;
+        else musicZone = 0;
+
+        if (musicZone == trackedMap) return;
+        trackedMap = musicZone;
+
+        if (musicZone == 3) game.playMusic(game.bossMusic);
+        else if (musicZone == 2) game.playMusic(game.map3Music);
+        else if (musicZone == 1) game.playMusic(game.map2Music);
+        else game.playMusic(game.map1Music);
     }
 
     @Override
     public void render(float delta) {
         if (waveManager.gameWon) {
             game.scoreManager.addScore(score);
+            game.playMusic(game.menuMusic);
             game.setScreen(new GameWinScreen(game, score, survivalTime));
             return;
         }
 
         if (waveManager.betweenWaves) {
             waveManager.tickIntro(delta);
-            ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1f);
+            ScreenUtils.clear(0.04f, 0.04f, 0.08f, 1f);
+            hudCamera.position.set(Constants.SCREEN_WIDTH / 2f, Constants.SCREEN_HEIGHT / 2f, 0);
+            hudCamera.update();
+            hudViewport.apply();
             game.batch.setProjectionMatrix(hudCamera.combined);
             game.batch.begin();
-            hud.drawWaveIntro(game.batch, game.font, waveManager.currentWave);
+            hud.drawWaveIntro(game.batch, game.fonts, waveManager.currentWave, waveManager.introTimer > 1f ? 1f : waveManager.introTimer);
             game.batch.end();
             return;
         }
 
+        updateMusic();
         survivalTime += delta;
 
         mouseWorldPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -133,6 +158,7 @@ public class GameScreen extends ScreenAdapter {
 
         if (player.isDead()) {
             game.scoreManager.addScore(score);
+            game.playMusic(game.menuMusic);
             game.setScreen(new GameOverScreen(game, score, survivalTime));
             return;
         }
@@ -143,23 +169,16 @@ public class GameScreen extends ScreenAdapter {
         hudCamera.update();
 
         viewport.apply();
-        shapeRenderer.setProjectionMatrix(camera.combined);
-
         ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1f);
 
-        viewport.apply();
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-
-        game.batch.draw(assets.getMapTexture(waveManager.currentWave),
-            0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
-
+        game.batch.draw(assets.getMapTexture(waveManager.currentWave), 0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
         player.draw(game.batch, assets);
         enemyManager.draw(game.batch, assets);
         bulletManager.draw(game.batch, assets);
         dropManager.draw(game.batch, assets);
-        particleSystem.drawText(game.batch, game.font);
-
+        particleSystem.drawText(game.batch, game.fonts.hudFont);
         game.batch.end();
 
         shapeRenderer.setProjectionMatrix(camera.combined);
@@ -184,7 +203,7 @@ public class GameScreen extends ScreenAdapter {
 
         game.batch.setProjectionMatrix(hudCamera.combined);
         game.batch.begin();
-        hud.drawGameInfo(game.batch, game.font, player, score, survivalTime);
+        hud.drawGameInfo(game.batch, game.fonts, player, score, survivalTime);
         game.batch.end();
     }
 

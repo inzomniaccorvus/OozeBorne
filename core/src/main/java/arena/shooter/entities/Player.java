@@ -118,7 +118,7 @@ public class Player implements Drawable, Damageable {
         switch (currentWeapon) {
             case PISTOL:
                 bulletManager.addBullet(makeBullet(aimDirectionX, aimDirectionY, 0f));
-                shootSound.play(0.4f);
+                shootSound.play(0.15f);
                 fireTimer = firerateBoostTimer > 0 ? 0.1f : 0.3f;
                 break;
 
@@ -129,13 +129,13 @@ public class Player implements Drawable, Damageable {
                     float spreadAngle = baseAngle + offset;
                     bulletManager.addBullet(makeBullet((float) Math.cos(spreadAngle), (float) Math.sin(spreadAngle), 0f));
                 }
-                shootSound.play(0.4f);
+                shootSound.play(0.15f);
                 fireTimer = firerateBoostTimer > 0 ? 0.3f : 0.6f;
                 break;
 
             case RAPID_FIRE:
                 bulletManager.addBullet(makeBullet(aimDirectionX, aimDirectionY, 0f));
-                shootSound.play(0.4f);
+                shootSound.play(0.15f);
                 fireTimer = firerateBoostTimer > 0 ? 0.05f : 0.1f;
                 break;
 
@@ -143,7 +143,7 @@ public class Player implements Drawable, Damageable {
                 for (int i = 0; i < 3; i++) {
                     bulletManager.addBullet(makeBullet(aimDirectionX, aimDirectionY, i * 8f));
                 }
-                shootSound.play(0.4f);
+                shootSound.play(0.15f);
                 fireTimer = firerateBoostTimer > 0 ? 0.2f : 0.4f;
                 break;
         }

@@ -20,7 +20,7 @@ public class DropManager implements Drawable {
     private float powerupTimer;
 
     private static final float WEAPON_DROP_INTERVAL = 15f;
-    private static final float POWERUP_INTERVAL = 8f;
+    private static final float POWERUP_INTERVAL = 18f;
     private static final float WEAPON_DROP_LIFETIME = 10f;
     private static final float SPAWN_PADDING = 50f;
 
@@ -87,7 +87,7 @@ public class DropManager implements Drawable {
                     else if (drop.type == Drop.Type.FIRERATE) player.applyFirerateBoost();
                     else if (drop.type == Drop.Type.ARMORBUSTER) player.applyDamageBoost();
                 }
-                pickupSound.play(1f);
+                pickupSound.play(0.5f);
                 drops.removeIndex(i);
             }
 
