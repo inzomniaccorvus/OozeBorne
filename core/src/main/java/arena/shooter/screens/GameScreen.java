@@ -89,11 +89,11 @@ public class GameScreen extends ScreenAdapter {
         if (currentMap == trackedMap) return;
         trackedMap = currentMap;
 
-        if (currentMap >= 4) {
+        if (currentMap == 4) {
             game.playMusic(game.bossMusic);
         } else if (currentMap == 3) {
             game.playMusic(game.map3Music);
-        } else if (currentMap >= 1) {
+        } else if (currentMap == 2) {
             game.playMusic(game.map2Music);
         } else {
             game.playMusic(game.map1Music);
