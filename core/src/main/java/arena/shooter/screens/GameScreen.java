@@ -41,6 +41,7 @@ public class GameScreen extends ScreenAdapter {
     private float shakeOffsetX;
     private float shakeOffsetY;
     private int trackedMap;
+    private boolean paused;
 
     private GameAssets assets;
 
@@ -77,27 +78,26 @@ public class GameScreen extends ScreenAdapter {
         survivalTime = 0f;
         shakeDuration = 0f;
         trackedMap = -1;
+        paused = false;
 
         game.playMusic(game.map1Music);
         trackedMap = 0;
     }
 
     private void updateMusic() {
-        int musicZone;
-        int wave = waveManager.currentWave;
+        int currentMap = waveManager.currentMap;
+        if (currentMap == trackedMap) return;
+        trackedMap = currentMap;
 
-        if (wave == 9) musicZone = 3;
-        else if (wave >= 7) musicZone = 2;
-        else if (wave >= 3) musicZone = 1;
-        else musicZone = 0;
-
-        if (musicZone == trackedMap) return;
-        trackedMap = musicZone;
-
-        if (musicZone == 3) game.playMusic(game.bossMusic);
-        else if (musicZone == 2) game.playMusic(game.map3Music);
-        else if (musicZone == 1) game.playMusic(game.map2Music);
-        else game.playMusic(game.map1Music);
+        if (currentMap >= 4) {
+            game.playMusic(game.bossMusic);
+        } else if (currentMap >= 3) {
+            game.playMusic(game.map3Music);
+        } else if (currentMap >= 1) {
+            game.playMusic(game.map2Music);
+        } else {
+            game.playMusic(game.map1Music);
+        }
     }
 
     @Override
@@ -117,50 +117,56 @@ public class GameScreen extends ScreenAdapter {
             hudViewport.apply();
             game.batch.setProjectionMatrix(hudCamera.combined);
             game.batch.begin();
-            hud.drawWaveIntro(game.batch, game.fonts, waveManager.currentWave, waveManager.introTimer > 1f ? 1f : waveManager.introTimer);
+            hud.drawWaveIntro(game.batch, game.fonts, waveManager.currentWave,
+                waveManager.introTimer > 1f ? 1f : waveManager.introTimer);
             game.batch.end();
             return;
         }
 
         updateMusic();
-        survivalTime += delta;
+
+        if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.ESCAPE)) paused = !paused;
 
         mouseWorldPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         viewport.unproject(mouseWorldPosition);
         float mouseX = mouseWorldPosition.x;
         float mouseY = mouseWorldPosition.y;
 
-        float aimDeltaX = mouseX - player.centerX();
-        float aimDeltaY = mouseY - player.centerY();
-        float aimLength = (float) Math.sqrt(aimDeltaX * aimDeltaX + aimDeltaY * aimDeltaY);
-        float aimDirectionX = aimDeltaX / aimLength;
-        float aimDirectionY = aimDeltaY / aimLength;
+        if (!paused) {
+            survivalTime += delta;
 
-        player.update(delta, bulletManager, aimDirectionX, aimDirectionY, game.shootSound);
-        bulletManager.update(delta);
-        enemyManager.update(waveManager, delta, player.centerX(), player.centerY());
-        particleSystem.update(delta);
-        dropManager.update(delta, player, game.pickupSound);
+            float aimDeltaX = mouseX - player.centerX();
+            float aimDeltaY = mouseY - player.centerY();
+            float aimLength = (float) Math.sqrt(aimDeltaX * aimDeltaX + aimDeltaY * aimDeltaY);
+            float aimDirectionX = aimDeltaX / aimLength;
+            float aimDirectionY = aimDeltaY / aimLength;
 
-        score += collisionSystem.checkBulletEnemyCollisions(bulletManager, enemyManager, particleSystem, game.hitSound, game.explosionSound, player);
-        collisionSystem.checkPlayerEnemyCollisions(player, enemyManager);
-        collisionSystem.checkEnemyBulletPlayerCollisions(player, enemyManager);
+            player.update(delta, bulletManager, aimDirectionX, aimDirectionY, game.shootSound);
+            bulletManager.update(delta);
+            enemyManager.update(waveManager, delta, player.centerX(), player.centerY());
+            particleSystem.update(delta);
+            dropManager.update(delta, player, game.pickupSound);
 
-        if (player.damageFlashTimer > 0) shakeDuration = Constants.SHAKE_DURATION;
-        if (shakeDuration > 0) {
-            shakeDuration -= delta;
-            shakeOffsetX = (float) (Math.random() * Constants.SHAKE_INTENSITY * 2) - Constants.SHAKE_INTENSITY;
-            shakeOffsetY = (float) (Math.random() * Constants.SHAKE_INTENSITY * 2) - Constants.SHAKE_INTENSITY;
-        } else {
-            shakeOffsetX = 0;
-            shakeOffsetY = 0;
-        }
+            score += collisionSystem.checkBulletEnemyCollisions(bulletManager, enemyManager, particleSystem, game.hitSound, game.explosionSound, player);
+            collisionSystem.checkPlayerEnemyCollisions(player, enemyManager);
+            collisionSystem.checkEnemyBulletPlayerCollisions(player, enemyManager);
 
-        if (player.isDead()) {
-            game.scoreManager.addScore(score);
-            game.playMusic(game.menuMusic);
-            game.setScreen(new GameOverScreen(game, score, survivalTime));
-            return;
+            if (player.damageFlashTimer > 0) shakeDuration = Constants.SHAKE_DURATION;
+            if (shakeDuration > 0) {
+                shakeDuration -= delta;
+                shakeOffsetX = (float) (Math.random() * Constants.SHAKE_INTENSITY * 2) - Constants.SHAKE_INTENSITY;
+                shakeOffsetY = (float) (Math.random() * Constants.SHAKE_INTENSITY * 2) - Constants.SHAKE_INTENSITY;
+            } else {
+                shakeOffsetX = 0;
+                shakeOffsetY = 0;
+            }
+
+            if (player.isDead()) {
+                game.scoreManager.addScore(score);
+                game.playMusic(game.menuMusic);
+                game.setScreen(new GameOverScreen(game, score, survivalTime));
+                return;
+            }
         }
 
         camera.position.set(Constants.SCREEN_WIDTH / 2f + shakeOffsetX, Constants.SCREEN_HEIGHT / 2f + shakeOffsetY, 0);
@@ -205,6 +211,20 @@ public class GameScreen extends ScreenAdapter {
         game.batch.begin();
         hud.drawGameInfo(game.batch, game.fonts, player, score, survivalTime);
         game.batch.end();
+
+        if (paused) {
+            hudViewport.apply();
+            shapeRenderer.setProjectionMatrix(hudCamera.combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(0f, 0f, 0f, 0.6f);
+            shapeRenderer.rect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+            shapeRenderer.end();
+
+            game.batch.setProjectionMatrix(hudCamera.combined);
+            game.batch.begin();
+            hud.drawPause(game.batch, game.fonts);
+            game.batch.end();
+        }
     }
 
     @Override

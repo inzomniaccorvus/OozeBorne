@@ -79,7 +79,7 @@ public class HUD {
 
     public void drawWaveIntro(SpriteBatch batch, FontManager fonts, int wave, float alpha) {
         fonts.waveFont.setColor(0.90f, 0.85f, 1f, alpha);
-        drawCentered(batch, fonts.waveFont, "- WAVE " + toRoman(wave + 1) + " -", SCREEN_HEIGHT / 2f + 60);
+        drawCentered(batch, fonts.waveFont, "WAVE " + toRoman(wave + 1), SCREEN_HEIGHT / 2f + 60);
 
         fonts.bodyItalic.setColor(0.90f, 0.85f, 1.00f, alpha);
         drawCentered(batch, fonts.bodyItalic, FLAVOR_TEXTS[Math.min(wave, FLAVOR_TEXTS.length - 1)], SCREEN_HEIGHT / 2f - 40);
@@ -107,18 +107,17 @@ public class HUD {
         } else {
             for (int i = 0; i < Math.min(scores.size, 5); i++) {
                 fonts.hudFont.setColor(i == 0 ? GOLD : LAVENDER);
-                drawCentered(batch, fonts.hudFont,
-                    (i + 1) + ".   " + scores.get(i), scoreY - i * 24f);
+                drawCentered(batch, fonts.hudFont, (i + 1) + ".   " + scores.get(i), scoreY - i * 24f);
             }
         }
     }
 
     public void drawGameOver(SpriteBatch batch, FontManager fonts, int score, float survivalTime) {
-        drawEndScreen(batch, fonts, "— The Mage Has Fallen —", "The ooze reclaims the halls.", score, survivalTime);
+        drawEndScreen(batch, fonts, "The Mage Has Fallen", "The ooze reclaims the halls.", score, survivalTime);
     }
 
     public void drawGameWin(SpriteBatch batch, FontManager fonts, int score, float survivalTime) {
-        drawEndScreen(batch, fonts, "— The Incursion is Contained —", "Order restored. For now.", score, survivalTime);
+        drawEndScreen(batch, fonts, "The Incursion is Contained", "Order restored. For now.", score, survivalTime);
     }
 
     public void drawBossIntro(SpriteBatch batch, FontManager fonts, float alpha) {
@@ -126,6 +125,13 @@ public class HUD {
         drawCentered(batch, fonts.titleFont, "OOZEBORNE", SCREEN_HEIGHT / 2f + 40);
         fonts.bodyItalic.setColor(0.90f, 0.85f, 1f, alpha);
         drawCentered(batch, fonts.bodyItalic, FLAVOR_TEXTS[9], SCREEN_HEIGHT / 2f - 14);
+    }
+
+    public void drawPause(SpriteBatch batch, FontManager fonts) {
+        fonts.headerFont.setColor(LAVENDER);
+        drawCentered(batch, fonts.headerFont, "Paused", SCREEN_HEIGHT / 2f + 20);
+        fonts.hudSmall.setColor(BRIGHT);
+        drawCentered(batch, fonts.hudSmall, "Press ESC to resume", SCREEN_HEIGHT / 2f - 20);
     }
 
     private void drawEndScreen(SpriteBatch batch, FontManager fonts, String title, String subtitle, int score, float survivalTime) {
