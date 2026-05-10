@@ -15,7 +15,7 @@ public class ShooterEnemy extends Enemy {
     public Array<Bullet> enemyBullets;
 
     public ShooterEnemy(float x, float y, float speed) {
-        super(x, y, 20f, speed, 6, Color.MAGENTA, 20);
+        super(x, y, 20f, speed, 6, Color.ORANGE, 20);
         this.shootTimer = 0;
         this.shootInterval = 1.5f;
         this.enemyBullets = new Array<Bullet>();

@@ -16,14 +16,14 @@ public class WaveManager {
     private float edgeChangeInterval = 8f;
 
     public boolean bossSpawned;
-    public int currentMap;
+    public int musicZone;
 
     public WaveManager() {
         waves = new Array<Wave>();
         betweenWaves = true;
         gameWon = false;
         introTimer = 3f;
-        currentWave = 0;
+        currentWave = 9;
         currentEdge = 0;
         spawnIndex = 0;
         edgeChangeTimer = 0;
@@ -133,6 +133,12 @@ public class WaveManager {
     public void update(Array<Enemy> enemies, float delta) {
         if (betweenWaves) return;
 
+        if (currentWave < 2) musicZone = 0;
+        else if (currentWave < 4) musicZone = 1;
+        else if (currentWave < 6) musicZone = 2;
+        else if (currentWave < 9) musicZone = 3;
+        else musicZone = 4;
+
         if (currentWave == 9) {
             spawnTimer += delta;
             edgeChangeTimer += delta;
@@ -150,11 +156,6 @@ public class WaveManager {
             spawnTimer = 0f;
             edgeChangeTimer = 0f;
             currentWave++;
-            if (currentWave < 2) currentMap = 0;
-            else if (currentWave < 4) currentMap = 1;
-            else if (currentWave < 6) currentMap = 2;
-            else if (currentWave < 8) currentMap = 3;
-            else currentMap = 4;
             return;
         }
 

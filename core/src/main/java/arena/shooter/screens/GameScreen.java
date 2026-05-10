@@ -40,7 +40,7 @@ public class GameScreen extends ScreenAdapter {
     private float shakeDuration;
     private float shakeOffsetX;
     private float shakeOffsetY;
-    private int trackedMap;
+    private int trackedMusicZone;
     private boolean paused;
 
     private GameAssets assets;
@@ -77,23 +77,23 @@ public class GameScreen extends ScreenAdapter {
         score = 0;
         survivalTime = 0f;
         shakeDuration = 0f;
-        trackedMap = -1;
+        trackedMusicZone = -1;
         paused = false;
 
         game.playMusic(game.map1Music);
-        trackedMap = 0;
+        trackedMusicZone = 0;
     }
 
     private void updateMusic() {
-        int currentMap = waveManager.currentMap;
-        if (currentMap == trackedMap) return;
-        trackedMap = currentMap;
+        int musicZone = waveManager.musicZone;
+        if (musicZone == trackedMusicZone) return;
+        trackedMusicZone = musicZone;
 
-        if (currentMap == 4) {
+        if (musicZone == 4) {
             game.playMusic(game.bossMusic);
-        } else if (currentMap == 3) {
+        } else if (musicZone == 3) {
             game.playMusic(game.map3Music);
-        } else if (currentMap == 2) {
+        } else if (musicZone == 2) {
             game.playMusic(game.map2Music);
         } else {
             game.playMusic(game.map1Music);
