@@ -1,33 +1,141 @@
-# ArenaShooter
+# Oozeborne
+### A Mage's Inquiry into the Slime Incursion
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
+A 2D top-down arena shooter built in Java with libGDX. You play as a mage investigating a slime incursion, surviving ten progressively harder waves of enemies culminating in a multi-phase boss fight against the Oozeborne.
 
-This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
+> Built as a CSE215 Object Oriented Programming project at North South University, Spring 2026.
 
-## Platforms
+---
 
-- `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
+## Gameplay
 
-## Gradle
+![Gameplay GIF](gameplay.gif)
 
-This project uses [Gradle](https://gradle.org/) to manage dependencies.
-The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
-Useful Gradle tasks and flags:
+- Survive 10 waves of slime enemies across 3 maps
+- Pick up weapon drops (Shotgun, Rapid Fire, Burst) and powerups (Speed, Firerate, Armour Buster, Heal)
+- Face the Oozeborne — a boss with two phases, dash attacks, spiral bullet patterns, a bullet reflection mechanic, and minion summoning
+- Score is tracked and top 10 high scores are saved locally
 
-- `--continue`: when using this flag, errors will not stop the tasks from running.
-- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
-- `--offline`: when using this flag, cached dependency archives will be used.
-- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
-- `build`: builds sources and archives of every project.
-- `cleanEclipse`: removes Eclipse project data.
-- `cleanIdea`: removes IntelliJ project data.
-- `clean`: removes `build` folders, which store compiled classes and built archives.
-- `eclipse`: generates Eclipse project data.
-- `idea`: generates IntelliJ project data.
-- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
-- `lwjgl3:run`: starts the application.
-- `test`: runs unit tests (if any).
+---
 
-Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
-For example, `core:clean` removes `build` folder only from the `core` project.
+## Controls
+
+| Input | Action |
+|---|---|
+| WASD | Move |
+| Mouse | Aim |
+| Left Mouse Button | Shoot |
+| ESC | Pause / Resume |
+| R | Restart (on Game Over / Win screen) |
+| ENTER | Start game (on Main Menu) |
+
+---
+
+## Building and Running
+
+### Requirements
+- Java JDK 8 or higher
+- No additional setup needed — Gradle handles everything
+
+### Steps
+
+1. Clone the repository:
+```bash
+git clone https://github.com/inzomniaccorvus/OozeBorne.git
+cd OozeBorne
+```
+
+2. Run the game:
+```bash
+./gradlew lwjgl3:run
+```
+
+On Windows:
+```bash
+gradlew.bat lwjgl3:run
+```
+
+3. To build a runnable JAR:
+```bash
+./gradlew lwjgl3:jar
+```
+The JAR will appear in `lwjgl3/build/libs/`. Run it with:
+```bash
+java -jar lwjgl3/build/libs/ArenaShooter-1.0.jar
+```
+
+---
+
+## Tech Stack
+
+- **Language:** Java
+- **Framework:** [libGDX](https://libgdx.com/)
+- **Build Tool:** Gradle
+- **Font Rendering:** libGDX FreeType extension
+- **Fonts:** [Cinzel Decorative](https://fonts.google.com/specimen/Cinzel+Decorative), [Cinzel](https://fonts.google.com/specimen/Cinzel), [IM Fell English](https://fonts.google.com/specimen/IM+Fell+English) — Google Fonts, OFL licensed
+- **Sprites & Maps:** Generated with [Nano Banana](https://nanobanana.io/)
+
+---
+
+## Project Structure
+
+```
+core/src/main/java/arena/shooter/
+├── Main.java                  # Application entry point
+├── core/
+│   ├── Constants.java         # Global constants
+│   ├── GameAssets.java        # Texture and animation loading
+│   └── FontManager.java       # FreeType font generation
+├── screens/
+│   ├── GameScreen.java        # Main game loop
+│   ├── MainMenuScreen.java
+│   ├── GameOverScreen.java
+│   └── GameWinScreen.java
+├── entities/
+│   ├── Player.java
+│   ├── Enemy.java             # Base class
+│   ├── BasicEnemy.java
+│   ├── FastEnemy.java
+│   ├── TankEnemy.java
+│   ├── ShooterEnemy.java
+│   ├── SplitterEnemy.java
+│   ├── AmalgamEnemy.java      # Boss
+│   ├── Bullet.java
+│   ├── Drop.java
+│   ├── Particle.java
+│   └── DamageNumber.java
+├── systems/
+│   ├── BulletManager.java
+│   ├── EnemyManager.java
+│   ├── WaveManager.java
+│   ├── Wave.java
+│   ├── DropManager.java
+│   ├── CollisionSystem.java
+│   ├── ParticleSystem.java
+│   └── ScoreManager.java
+└── ui/
+    └── HUD.java
+```
+
+---
+
+## Music Credits
+
+Music sourced from [OpenGameArt.org](https://opengameart.org/) under their respective Creative Commons licenses. Full attribution:
+
+| Track | Author |
+|---|---|
+| Dark Dungeon Ambience | [Machine](https://opengameart.org/users/machine) |
+| Dark Shrine Loop | [qubodup](https://opengameart.org/users/qubodup) |
+| Fantasy Music and Drum Loops Pack | [NorthFantasyMusic](https://opengameart.org/users/northfantasymusic) |
+| Orchestral Battle Music | [Zefz](https://opengameart.org/users/zefz) |
+| Dark Souls Type Boss Theme | [ProjectHelmet](https://opengameart.org/users/projecthelmet) |
+| Fantasy Sound Effects Library | [Little Robot Sound Factory](https://opengameart.org/users/little-robot-sound-factory) |
+
+---
+
+## License
+
+Code is released under the [MIT License](LICENSE).  
+Music assets retain their original licenses from OpenGameArt — see individual track pages for details.  
+Sprite and map assets were AI-generated for this project.

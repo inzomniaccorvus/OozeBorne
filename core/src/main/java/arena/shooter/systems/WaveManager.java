@@ -23,7 +23,7 @@ public class WaveManager {
         betweenWaves = true;
         gameWon = false;
         introTimer = 3f;
-        currentWave = 9;
+        currentWave = 0;
         currentEdge = 0;
         spawnIndex = 0;
         edgeChangeTimer = 0;
