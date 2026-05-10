@@ -91,7 +91,7 @@ public class Player implements Drawable, Damageable {
 
 
         x = Math.max(0, Math.min(Constants.SCREEN_WIDTH - size, x));
-        y = (float) Math.max(0, Math.min(Constants.SCREEN_HEIGHT - size * 2, y));
+        y = Math.max(0, Math.min(Constants.SCREEN_HEIGHT - size * 2, y));
 
         velX = x - prevX;
         velY = y - prevY;

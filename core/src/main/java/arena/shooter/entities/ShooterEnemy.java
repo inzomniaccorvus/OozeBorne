@@ -49,13 +49,6 @@ public class ShooterEnemy extends Enemy {
         }
     }
 
-    public void drawBullets(ShapeRenderer shape) {
-        shape.setColor(Color.RED);
-        for (Bullet bullet : enemyBullets) {
-            shape.circle(bullet.x, bullet.y, bullet.size);
-        }
-    }
-
     @Override
     protected Animation<TextureRegion> getAnimation(GameAssets assets) {
         return assets.shooterAnim;
