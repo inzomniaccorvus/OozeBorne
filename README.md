@@ -9,7 +9,10 @@ A 2D top-down arena shooter built in Java with libGDX. You play as a mage invest
 
 ## Gameplay
 
-<img src="gameplay.gif" width="600" alt="Gameplay GIF"/>
+|                                               |                                                  |
+|-----------------------------------------------|--------------------------------------------------|
+| <img src="screenshots/menu.png" width="400"/> | <img src="screenshots/midgame.png" width="400"/> |
+| *Main Menu*                                   | *Gameplay*                                       |
 
 - Survive 10 waves of slime enemies across 3 maps
 - Pick up weapon drops (Shotgun, Rapid Fire, Burst) and powerups (Speed, Firerate, Armour Buster, Heal)
